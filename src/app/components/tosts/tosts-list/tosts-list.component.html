@@ -1,5 +1,7 @@
 <div class="tosts-grid">
-  <div class="tost-card" *ngFor="let item of (tostList$ | async)">
+  <div class="tost-card"
+       *ngFor="let item of (tostList$ | async)"
+  >
     <app-tost-list-card [item]="item"></app-tost-list-card>
   </div>
 

@@ -11,27 +11,37 @@ import * as fromTostStore from './store/tosts/tost.reducer';
 import {EffectsModule} from "@ngrx/effects";
 import {TostEffects} from "./store/tosts/tost.effects";
 import {HttpClientModule} from "@angular/common/http";
+import { HeaderComponent } from './components/header/header.component';
+import { FooterComponent } from './components/footer/footer.component';
+import { TostEditComponent } from './components/tosts/tost-edit/tost-edit.component';
+import { TostEditCardComponent } from './components/tosts/tost-edit/tost-edit-card/tost-edit-card.component';
+import {ReactiveFormsModule} from "@angular/forms";
 
 @NgModule({
   declarations: [
     AppComponent,
     TostsListComponent,
-    TostListCardComponent
+    TostListCardComponent,
+    HeaderComponent,
+    FooterComponent,
+    TostEditComponent,
+    TostEditCardComponent
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    HttpClientModule,
-    StoreModule.forRoot({}),
-    StoreModule.forFeature(
-      fromTostStore.tostFeatureKey,
-      fromTostStore.tostReduser,
-    ),
-    EffectsModule.forRoot([]),
-    EffectsModule.forFeature([
-      TostEffects,
-    ])
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        HttpClientModule,
+        StoreModule.forRoot({}),
+        StoreModule.forFeature(
+            fromTostStore.tostFeatureKey,
+            fromTostStore.tostReduser,
+        ),
+        EffectsModule.forRoot([]),
+        EffectsModule.forFeature([
+            TostEffects,
+        ]),
+        ReactiveFormsModule
+    ],
   providers: [],
   bootstrap: [AppComponent]
 })

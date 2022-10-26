@@ -1,7 +1,11 @@
 .tosts-grid {
   display: flex;
+  flex-wrap: wrap;
+  margin-right: 20%;
+  margin-left: 20%;
 }
 
 .tost-card {
- margin-right: 20px;
+  margin-right: 20px;
+  margin-bottom: 20px;
 }

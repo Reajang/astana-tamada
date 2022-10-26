@@ -9,10 +9,15 @@ import {Tost} from "../../../../models/tosts/tost.model";
 export class TostListCardComponent implements OnInit {
 
   @Input() item: Tost;
+  open = false;
+
 
   constructor() { }
 
   ngOnInit(): void {
   }
 
+  change() {
+    this.open = !this.open;
+  }
 }

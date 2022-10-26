@@ -26,5 +26,4 @@ export class TostsListComponent implements OnInit {
     this.store.dispatch(TostActions.loadTosts({userId: this.fakeUserId}))
     this.tostList$ = this.store.select(selectTostsList);
   }
-
 }

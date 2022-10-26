@@ -26,6 +26,7 @@ export class TostService {
   create = (userId: string, text: string): Observable<Tost> => {
     return this.http$.post<Tost>(
       `/api/tost/${userId}`,
+      {},
       {
         params: {
           text
@@ -36,9 +37,10 @@ export class TostService {
     );
   }
 
-  update = (userId: string, tostId: string, text: string): Observable<Tost[]> => {
-    return this.http$.put<Tost[]>(
+  update = (userId: string, tostId: string, text: string): Observable<any> => {
+    return this.http$.put<any>(
       `/api/tost/${userId}`,
+      {},
       {
         params: {
           tostId,

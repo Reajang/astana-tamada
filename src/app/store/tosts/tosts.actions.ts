@@ -3,7 +3,7 @@ import {Tost} from "../../models/tosts/tost.model";
 
 export const loadTosts = createAction(
   '[Tosts] Load Tosts',
-  props<{ userId?: string }>(),
+  props<{ userId: string }>(),
 );
 
 export const loadTostsSuccess = createAction(
