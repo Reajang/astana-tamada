@@ -1,0 +1,13 @@
+User-agent: * # any agent
+Allow: /
+Disallow: /*.pdf
+Disallow: /*.jpg
+Disallow: /*.gif
+Disallow: /*.png
+Disallow: /*.css
+Disallow: /*.ico
+Disallow: /*.jpeg
+Disallow: /*.bmp
+Crawl-delay: 60 # crawlers timeout 60
+#Disallow: /*.js
+#Disallow: /*.jsp
