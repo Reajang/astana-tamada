@@ -1,24 +1,9 @@
-### STAGE 1:BUILD ###
-# Defining a node image to be used as giving it an alias of "build"
-# Which version of Node image to use depends on project dependencies
-# This is needed to build and compile our code
-# while generating the docker image
-FROM node:19.8.1-alpine AS build
-# Create a Virtual directory inside the docker image
-WORKDIR /dist/src/app
-# Copy files to virtual directory
-COPY package.json package-lock.json ./
-# Run command in Virtual directory
-RUN npm cache clean --force
-# Copy files from local machine to virtual directory in docker image
-COPY . .
-RUN npm install
-RUN npm run build
+FROM openresty/openresty:1.15.8.3-2-centos
 
+#RUN opm get knyar/nginx-lua-prometheus
 
-### STAGE 2:RUN ###
-# Defining nginx image to be used
-FROM nginx:latest AS ngi
+RUN mkdir /usr/local/openresty/nginx/modules && curl -L https://github.com/opentracing-contrib/nginx-opentracing/releases/download/v0.9.0/linux-amd64-nginx-1.15.8-ngx_http_module.so.tgz \
+    | tar -xvz -C /usr/local/openresty/nginx/modules/
 
 ENV BACKEND_UPSTREAM backend:8080
 
@@ -26,10 +11,8 @@ COPY ./docker/entrypoint.sh /sbin/entrypoint.sh
 
 RUN chmod 755 /sbin/entrypoint.sh
 
-COPY ./docker/nginx.conf /etc/nginx/nginx.conf
+COPY ./docker/nginx.conf /etc/nginx/nginx.conf.tpl
 COPY ./docker/robots.txt /usr/share/nginx/html/
-COPY --from=build /dist/src/app/dist/astana-ui /usr/share/nginx/html
-
-RUN chmod -R 755 /usr/share/nginx/html
+COPY ./dist/astana-ui /usr/share/nginx/html
 
 ENTRYPOINT ["/sbin/entrypoint.sh"]
