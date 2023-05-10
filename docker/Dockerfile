@@ -1,13 +1,22 @@
-FROM openresty/openresty:1.15.8.3-2-centos
+### STAGE 1:BUILD ###
+FROM node:20.0-alpine AS build
+# Create a Virtual directory inside the docker image
+WORKDIR /dist/src/app
+RUN npm cache clean --force
+# Copy files from local machine to virtual directory in docker image
+COPY . .
+RUN npm install
+RUN npm run build --prod
+
+
+### STAGE 2:RUN ###
+FROM nginx:latest AS ngi
 
 ENV BACKEND_UPSTREAM backend:8080
 
 COPY ./docker/entrypoint.sh /sbin/entrypoint.sh
 
-RUN chmod 755 /sbin/entrypoint.sh
+COPY --from=build /dist/src/app/dist/astana-ui /usr/share/nginx/html
+COPY /nginx.conf  /etc/nginx/conf.d/default.conf
+EXPOSE 80
 
-COPY ./docker/nginx.conf /etc/nginx/nginx.conf.tpl
-COPY ./docker/robots.txt /usr/share/nginx/html/
-COPY ./dist/astana-ui /usr/share/nginx/html
-
-ENTRYPOINT ["/sbin/entrypoint.sh"]

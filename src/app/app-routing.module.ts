@@ -5,6 +5,10 @@ import {TostEditComponent} from "./components/tosts/tost-edit/tost-edit.componen
 
 const routes: Routes = [
   {
+    path: '',
+    component: TostsListComponent,
+  },
+  {
     path: 'tosts',
     component: TostsListComponent,
   },
