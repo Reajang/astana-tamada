@@ -1,0 +1,38 @@
+<div class="future-telling">
+
+  <form class="tarot-form" [formGroup]="tarotForm">
+
+    <div class="cards-block">
+      <div class="tarot-card-view">
+        <app-tarot-selected-card-view [card]="tarotForm.controls.cards.at(0)?.value"></app-tarot-selected-card-view>
+      </div>
+
+      <div class="tarot-card-view">
+        <app-tarot-selected-card-view [card]="tarotForm.controls.cards.at(1)?.value"></app-tarot-selected-card-view>
+      </div>
+
+      <div class="tarot-card-view">
+        <app-tarot-selected-card-view [card]="tarotForm.controls.cards.at(2)?.value"></app-tarot-selected-card-view>
+      </div>
+    </div>
+
+
+    <div class="form-element buttons">
+      <div class="button" *ngIf="canPullAnotherCard()" (click)="nextCard()">Next card</div>
+      <div class="button" *ngIf="allFieldsFilled()" (click)="sendQuestion()">Ask question</div>
+    </div>
+
+    <div class="tarot-question">
+          <textarea
+            placeholder="Question"
+            [formControlName]="'question'"
+          >
+    </textarea>
+    </div>
+
+    <div class="button reset-button" (click)="reset()">Reset</div>
+
+  </form>
+
+</div>
+

@@ -1,0 +1,52 @@
+.tarot-card {
+  width: 14em;
+  height: 26em;
+  border: 2px solid #837739;
+  border-radius: 8px;
+  padding: 3em;
+
+  display: flex;
+  flex-direction: column;
+
+  background-image: url(../../../../../assets/tarot/tarot_card_default_image.png);
+  background-size: cover;
+
+  &:not(.tarot-card-close){
+    cursor: help;
+  }
+}
+
+.tarot-card-close{
+  background-image: url(../../../../../assets/tarot/tarot_card_back.png);
+  background-size: cover;
+
+  &:hover{
+    cursor: pointer;
+    width: 15em;
+    height: 25em;
+  }
+}
+
+.reversed{
+  transform: rotate(180deg);
+}
+
+.tarot-card-name{
+  font-family: Inter, serif;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 24px;
+  color: black;
+  text-align: center;
+}
+
+.tarot-card-desc{
+  font-family: Inter, serif;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 20px;
+  color: rgba(0, 0, 0, 0.3);
+  overflow-y: auto;
+}

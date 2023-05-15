@@ -1,0 +1,9 @@
+<div class="tarot-card"
+     [class.tarot-card-close]="!card"
+     [class.reversed]="card?.reversed"
+     (click)="onClick.emit()"
+>
+<div class="tarot-card-name">{{card?.name}}</div>
+<div *ngIf="card?.reversed" class="tarot-card-name">Reversed</div>
+<div class="tarot-card-desc">{{card?.reversed ? card?.reversedDescription : card?.description}}</div>
+</div>

@@ -1,0 +1,75 @@
+.future-telling {
+
+}
+
+.tarot-form {
+
+}
+
+.cards-block {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 100px;
+}
+
+.tarot-card-view {
+  //&:not(:last-child) {
+  //  margin-right: 20px;
+  //}
+}
+
+.form-element {
+
+}
+
+.buttons {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.button {
+  cursor: pointer;
+  border-radius: 2px;
+  padding: 4px;
+  width: 12em;
+  height: 3em;
+  background-color: wheat;
+  border: 2px solid #837739;
+
+
+  font-family: Inter, serif;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 24px;
+  color: black;
+  text-align: center;
+
+  &.reset-button {
+    margin-top: 30px;
+    background-color: aliceblue;
+    color: firebrick;
+    width: 6em;
+    height: 2em;
+    font-size: 10px;
+    line-height: 18px;
+  }
+}
+
+.tarot-question {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+
+  border-radius: 2px;
+  padding: 4px;
+  background-color: wheat;
+  border: 2px solid #837739;
+
+  textarea {
+    height: 50px;
+    width: 500px;
+  }
+}
+
