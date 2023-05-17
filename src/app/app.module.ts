@@ -16,13 +16,14 @@ import {HeaderComponent} from './components/header/header.component';
 import {FooterComponent} from './components/footer/footer.component';
 import {TostEditComponent} from './components/tosts/tost-edit/tost-edit.component';
 import {TostEditCardComponent} from './components/tosts/tost-edit/tost-edit-card/tost-edit-card.component';
-import {ReactiveFormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {TarotFutureTellingComponent} from './components/tarot/tarot-future-telling/tarot-future-telling.component';
 import {TarotEffects} from "./store/tarot/tarot.effects";
 import { TarotSelectedCardViewComponent } from './components/tarot/tarot-future-telling/tarot-selected-card-view/tarot-selected-card-view.component';
 import { TarotResponseViewComponent } from './components/tarot/tarot-future-telling/tarot-response-view/tarot-response-view.component';
 import {DialogService} from "primeng/dynamicdialog";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import {RadioButtonModule} from "primeng/radiobutton";
 
 @NgModule({
   declarations: [
@@ -37,27 +38,29 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
     TarotSelectedCardViewComponent,
     TarotResponseViewComponent,
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    HttpClientModule,
-    BrowserAnimationsModule,
-    StoreModule.forRoot({}),
-    StoreModule.forFeature(
-      fromTostStore.tostFeatureKey,
-      fromTostStore.tostReduser,
-    ),
-    StoreModule.forFeature(
-      fromTarotStore.tarotFeatureKey,
-      fromTarotStore.tarotReduser,
-    ),
-    EffectsModule.forRoot([]),
-    EffectsModule.forFeature([
-      TostEffects,
-      TarotEffects
-    ]),
-    ReactiveFormsModule
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        HttpClientModule,
+        BrowserAnimationsModule,
+        StoreModule.forRoot({}),
+        StoreModule.forFeature(
+            fromTostStore.tostFeatureKey,
+            fromTostStore.tostReduser,
+        ),
+        StoreModule.forFeature(
+            fromTarotStore.tarotFeatureKey,
+            fromTarotStore.tarotReduser,
+        ),
+        EffectsModule.forRoot([]),
+        EffectsModule.forFeature([
+            TostEffects,
+            TarotEffects
+        ]),
+        ReactiveFormsModule,
+        RadioButtonModule,
+        FormsModule
+    ],
   providers: [DialogService],
   bootstrap: [AppComponent]
 })

@@ -1,3 +1,5 @@
+import {Language} from "../common/language.model";
+
 export interface TarotCard {
   id?: string;
   cardType?: TarotCardType;
@@ -18,10 +20,14 @@ export interface TarotCardType {
 
 export interface TarotRequest {
   cards: TarotCard[];
-  question: string;
+  text: string;
+  from?: Language;
+  to?: Language;
 }
 
 export interface TarotResponse {
   cards: TarotCard[];
-  response: string;
+  text: string;
+  from?: Language;
+  to?: Language;
 }
