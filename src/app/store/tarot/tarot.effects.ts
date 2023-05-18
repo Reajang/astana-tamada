@@ -1,6 +1,5 @@
 import {Injectable} from "@angular/core";
 import {Actions, createEffect, ofType} from "@ngrx/effects";
-import {Store} from "@ngrx/store";
 import * as TarotActions from "../tarot/tarot.actions";
 import {catchError, map, switchMap} from "rxjs";
 import {TarotService} from "../../services/tarot/tarot.service";
@@ -11,7 +10,6 @@ export class TarotEffects {
   constructor(
     private actions$: Actions,
     private service: TarotService,
-    private store: Store,
   ) {
   }
 

@@ -1,9 +1,9 @@
 import {createFeatureSelector, createSelector} from "@ngrx/store";
-import * as fromTarotReduser from './tarot.reducer'
+import * as fromTarotReducer from './tarot.reducer'
 
 export const selectTarotState =
-  createFeatureSelector<fromTarotReduser.TarotState>(
-    fromTarotReduser.tarotFeatureKey
+  createFeatureSelector<fromTarotReducer.TarotState>(
+    fromTarotReducer.tarotFeatureKey
   );
 
 export const selectTarotDesk = createSelector(
