@@ -37,6 +37,17 @@ export class TarotService {
     );
   }
 
+  askAsync = (request: TarotRequest): Observable<string> => {
+    return this.http$.post<string>(
+      `/api/tarot/question/async`,
+      request,
+      {
+        observe: 'body',
+        responseType: 'json',
+      }
+    );
+  }
+
   takeATry = (): Observable<TarotCard> => {
     return this.http$.get<TarotCard>(
       `/api/tarot/take-a-try`,

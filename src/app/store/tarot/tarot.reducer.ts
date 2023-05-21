@@ -7,6 +7,7 @@ export const tarotFeatureKey = 'tarotFeatureKey';
 export interface TarotState {
   deck: TarotCard[],
   request?: TarotRequest,
+  asyncRequestId?: string,
   response?: TarotResponse | null,
   randomlyPulledCards: TarotCard[],
 }
@@ -33,7 +34,7 @@ export const tarotReduser = createReducer(
     }
   }),
 
-  on(TarotActions.getResponse, (state, {response}) => {
+  on(TarotActions.setResponse, (state, {response}) => {
     return {
       ...state,
       response
@@ -44,6 +45,13 @@ export const tarotReduser = createReducer(
     return {
       ...state,
       randomlyPulledCards: [...state.randomlyPulledCards, card],
+    }
+  }),
+
+  on(TarotActions.setAskAsyncJobId, (state, {jodId}) => {
+    return {
+      ...state,
+      asyncRequestId: jodId,
     }
   }),
 );

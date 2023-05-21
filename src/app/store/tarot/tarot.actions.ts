@@ -16,8 +16,9 @@ export const askQuestion = createAction(
   props<{ request: TarotRequest }>(),
 );
 
-export const getResponse = createAction(
-  '[Tarot] get response',
+
+export const setResponse = createAction(
+  '[Tarot] set response',
   props<{ response: TarotResponse }>(),
 );
 
@@ -28,4 +29,14 @@ export const pullRandomCard = createAction(
 export const getPulledCard = createAction(
   '[Tarot] pull card',
   props<{ card: TarotCard }>(),
+);
+
+export const askQuestionAsync = createAction(
+  '[Tarot] ask question async',
+  props<{ request: TarotRequest }>(),
+);
+
+export const setAskAsyncJobId = createAction(
+  '[Tarot] set ask async job id',
+  props<{ jodId: string }>(),
 );

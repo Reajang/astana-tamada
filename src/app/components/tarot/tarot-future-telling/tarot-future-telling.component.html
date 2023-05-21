@@ -18,6 +18,8 @@
 
 
     <div class="form-element buttons">
+      <div>{{requestStatus$ | async}}</div>
+
       <div class="button" *ngIf="canPullAnotherCard()" (click)="nextCard()">Next card</div>
       <div class="button" *ngIf="allFieldsFilled()" (click)="sendQuestion()">Ask question</div>
     </div>
@@ -31,7 +33,6 @@
     </div>
 
     <div class="language-block">
-
       <div>
         <input id="EN" type="radio" class="custom-control-input" value="EN" name="language" formControlName="language">
         <label class="custom-control-label" for="EN">EN</label>

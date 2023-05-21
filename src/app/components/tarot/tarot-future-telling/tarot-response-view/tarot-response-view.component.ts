@@ -20,6 +20,7 @@ export class TarotResponseViewComponent implements OnInit {
   ngOnInit(): void {
     if (this.config.data) {
       this.response = this.config.data.response;
+      console.log(this.response.text)
     }
   }
 
