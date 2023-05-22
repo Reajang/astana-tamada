@@ -9,6 +9,7 @@ import {TarotCard} from "../../../../models/tarot/tarot.model";
 export class TarotSelectedCardViewComponent {
 
   @Input() card?: TarotCard | undefined;
-  @Output() onClick: EventEmitter<any> = new EventEmitter<any>();
+  @Output() onOpenClick: EventEmitter<any> = new EventEmitter<any>();
+  @Output() onCloseClick: EventEmitter<any> = new EventEmitter<any>();
 
 }

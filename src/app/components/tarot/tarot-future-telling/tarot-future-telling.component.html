@@ -4,24 +4,35 @@
 
     <div class="cards-block">
       <div class="tarot-card-view">
-        <app-tarot-selected-card-view [card]="tarotForm.controls.cards.at(0)?.value"></app-tarot-selected-card-view>
+        <app-tarot-selected-card-view
+          (onCloseClick)="pullCard(0)"
+          (onOpenClick)="showCardDetails(0)"
+          [card]="tarotForm.controls.cards.at(0).value"></app-tarot-selected-card-view>
       </div>
 
       <div class="tarot-card-view">
-        <app-tarot-selected-card-view [card]="tarotForm.controls.cards.at(1)?.value"></app-tarot-selected-card-view>
+        <app-tarot-selected-card-view
+          (onCloseClick)="pullCard(1)"
+          (onOpenClick)="showCardDetails(1)"
+          [card]="tarotForm.controls.cards.at(1).value"></app-tarot-selected-card-view>
       </div>
 
       <div class="tarot-card-view">
-        <app-tarot-selected-card-view [card]="tarotForm.controls.cards.at(2)?.value"></app-tarot-selected-card-view>
+        <app-tarot-selected-card-view
+          (onCloseClick)="pullCard(2)"
+          (onOpenClick)="showCardDetails(2)"
+          [card]="tarotForm.controls.cards.at(2).value"></app-tarot-selected-card-view>
       </div>
     </div>
 
 
     <div class="form-element buttons">
-      <div>{{requestStatus$ | async}}</div>
+      <app-preloader-spinner [isLoading]="(requestStatus$ | async) === LOADING_STATUSES.LOADING"></app-preloader-spinner>
 
-      <div class="button" *ngIf="canPullAnotherCard()" (click)="nextCard()">Next card</div>
-      <div class="button" *ngIf="allFieldsFilled()" (click)="sendQuestion()">Ask question</div>
+      <app-simple-button *ngIf="allFieldsFilled()"
+                         (onClick)="sendQuestion()"
+                         buttonTitle="Ask question"
+                         [loadingStatus]="requestStatus$ | async"></app-simple-button>
     </div>
 
     <div class="tarot-question">

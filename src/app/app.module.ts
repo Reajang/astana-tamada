@@ -29,6 +29,8 @@ import {DialogService} from "primeng/dynamicdialog";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {RadioButtonModule} from "primeng/radiobutton";
 import {JobEffects} from "./store/system/job/job.effects";
+import { PreloaderSpinnerComponent } from './components/common/preloader-spinner/preloader-spinner.component';
+import { SimpleButtonComponent } from './components/common/simple-button/simple-button.component';
 
 @NgModule({
   declarations: [
@@ -42,6 +44,8 @@ import {JobEffects} from "./store/system/job/job.effects";
     TarotFutureTellingComponent,
     TarotSelectedCardViewComponent,
     TarotResponseViewComponent,
+    PreloaderSpinnerComponent,
+    SimpleButtonComponent,
   ],
   imports: [
     BrowserModule,

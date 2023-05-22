@@ -12,7 +12,7 @@
   background-size: cover;
 
   &:not(.tarot-card-close){
-    cursor: help;
+    cursor: zoom-in;
   }
 }
 
@@ -22,8 +22,6 @@
 
   &:hover{
     cursor: pointer;
-    width: 15em;
-    height: 25em;
   }
 }
 

@@ -5,7 +5,7 @@ import * as HttpRequestStatusesActions from "../system/httprequeststatus/http-re
 import {catchError, map, switchMap} from "rxjs";
 import {TarotService} from "../../services/tarot/tarot.service";
 import {Store} from "@ngrx/store";
-import {HttpRequestStatus, HttpRequestType} from "../system/httprequeststatus/http-request-status.reducer";
+import {LoadingStatus, HttpRequestType} from "../system/httprequeststatus/http-request-status.reducer";
 
 @Injectable()
 export class TarotEffects {
@@ -41,7 +41,7 @@ export class TarotEffects {
         this.store.dispatch(HttpRequestStatusesActions.setStatus({
           updateRequest: {
             type: HttpRequestType.TAROT_REQUEST,
-            status: HttpRequestStatus.LOADING
+            status: LoadingStatus.LOADING
           }
         }));
         return this.service.ask(request);
@@ -50,7 +50,7 @@ export class TarotEffects {
         this.store.dispatch(HttpRequestStatusesActions.setStatus({
           updateRequest: {
             type: HttpRequestType.TAROT_REQUEST,
-            status: HttpRequestStatus.SUCCESS
+            status: LoadingStatus.SUCCESS
           }
         }));
         return TarotActions.setResponse({response});
@@ -59,7 +59,7 @@ export class TarotEffects {
         this.store.dispatch(HttpRequestStatusesActions.setStatus({
           updateRequest: {
             type: HttpRequestType.TAROT_REQUEST,
-            status: HttpRequestStatus.FAILED
+            status: LoadingStatus.FAILED
           }
         }));
         return caught;
@@ -74,7 +74,7 @@ export class TarotEffects {
         this.store.dispatch(HttpRequestStatusesActions.setStatus({
           updateRequest: {
             type: HttpRequestType.TAROT_REQUEST_ASYNC,
-            status: HttpRequestStatus.LOADING
+            status: LoadingStatus.LOADING
           }
         }));
         return this.service.askAsync(request);
@@ -86,7 +86,7 @@ export class TarotEffects {
         this.store.dispatch(HttpRequestStatusesActions.setStatus({
           updateRequest: {
             type: HttpRequestType.TAROT_REQUEST_ASYNC,
-            status: HttpRequestStatus.FAILED
+            status: LoadingStatus.FAILED
           }
         }));
         return caught;

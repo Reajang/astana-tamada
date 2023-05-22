@@ -4,7 +4,7 @@ import {Job, JobResult} from "../../models/system/job.model";
 import {TarotResponse} from "../../models/tarot/tarot.model";
 import * as TarotActions from "../../store/tarot/tarot.actions";
 import * as HttpRequestsActions from "../../store/system/httprequeststatus/http-request-status.action";
-import {HttpRequestStatus, HttpRequestType} from "../../store/system/httprequeststatus/http-request-status.reducer";
+import {LoadingStatus, HttpRequestType} from "../../store/system/httprequeststatus/http-request-status.reducer";
 
 @Injectable({
   providedIn: 'root'
@@ -25,7 +25,7 @@ export class JobHandler {
     this.store.dispatch(HttpRequestsActions.setStatus({
       updateRequest: {
         type: HttpRequestType.TAROT_REQUEST_ASYNC,
-        status: HttpRequestStatus.SUCCESS
+        status: LoadingStatus.SUCCESS
       }
     }))
   }

@@ -1,0 +1,8 @@
+<div class="button-container">
+  <div class="button"
+       *ngIf="!hidden && loadingStatus !== LOADING_STATUSES.LOADING"
+       (click)="onClick.emit()"
+  >{{buttonTitle}}</div>
+<!--  <app-preloader-spinner [isLoading]="loadingStatus === LOADING_STATUSES.LOADING"></app-preloader-spinner>-->
+</div>
+

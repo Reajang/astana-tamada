@@ -6,7 +6,7 @@ export enum HttpRequestType {
   TAROT_REQUEST_ASYNC = 'TAROT_REQUEST_ASYNC',
 }
 
-export enum HttpRequestStatus {
+export enum LoadingStatus {
   INITIAL = "INITIAL",
   LOADING = "LOADING",
   SUCCESS = "SUCCESS",
@@ -16,12 +16,12 @@ export enum HttpRequestStatus {
 export const httpRequestStatusFeatureKey = 'httpRequestStatusFeatureKey';
 
 export type HttpRequestStatusState = {
-  [key in HttpRequestType]?: HttpRequestStatus;
+  [key in HttpRequestType]?: LoadingStatus;
 };
 
 export const initialState: HttpRequestStatusState = {
-  TAROT_REQUEST: HttpRequestStatus.INITIAL,
-  TAROT_REQUEST_ASYNC: HttpRequestStatus.INITIAL,
+  TAROT_REQUEST: LoadingStatus.INITIAL,
+  TAROT_REQUEST_ASYNC: LoadingStatus.INITIAL,
 };
 
 export const httpResponseStatusReducer = createReducer(

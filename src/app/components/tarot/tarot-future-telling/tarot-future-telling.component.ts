@@ -10,7 +10,7 @@ import {selectLastRequestJobId, selectTarotDesk, selectTarotResponse} from "../.
 import {DialogService} from "primeng/dynamicdialog";
 import {TarotResponseViewComponent} from "./tarot-response-view/tarot-response-view.component";
 import {Language} from "../../../models/common/language.model";
-import {HttpRequestStatus, HttpRequestType} from "../../../store/system/httprequeststatus/http-request-status.reducer";
+import {HttpRequestType, LoadingStatus} from "../../../store/system/httprequeststatus/http-request-status.reducer";
 import {selectStatus} from "../../../store/system/httprequeststatus/http-request-status.selectors";
 import {selectJob} from "../../../store/system/job/job.selectors";
 import {Job, JobStatus} from "../../../models/system/job.model";
@@ -37,11 +37,12 @@ export class TarotFutureTellingComponent implements OnInit, OnDestroy {
   currentJobId: string;
   responseJob$: Observable<Job>;
 
-  requestStatus$: Observable<HttpRequestStatus>;
+  requestStatus$: Observable<LoadingStatus>;
 
   private unsubscribe$ = new Subject<void>();
   private checkResponseStatusSubmitting$ = new Subject<void>();
 
+  LOADING_STATUSES = LoadingStatus;
 
   constructor(
     private store: Store,
@@ -58,7 +59,7 @@ export class TarotFutureTellingComponent implements OnInit, OnDestroy {
 
   private initForm() {
     this.tarotForm = new FormGroup<TarotRequestModel>({
-      cards: new FormArray<FormControl<TarotCard>>([]),
+      cards: new FormArray<FormControl<TarotCard>>([new FormControl(), new FormControl(), new FormControl()]),
       question: new FormControl(),
       language: new FormControl(),
     });
@@ -134,18 +135,6 @@ export class TarotFutureTellingComponent implements OnInit, OnDestroy {
       });
   }
 
-  nextCard() {
-    let cardIndex = Math.floor(Math.random() * this.deck.length);
-    let tarotCard: TarotCard = this.deck[cardIndex];
-    while (this.selectedCards.includes(tarotCard)) {
-      cardIndex = Math.floor(Math.random() * this.deck.length);
-      tarotCard = this.deck[cardIndex];
-    }
-    this.selectedCards.push(tarotCard);
-    // @ts-ignore
-    this.tarotForm.controls.cards.push(new FormControl<TarotCard>(tarotCard));
-  }
-
   sendQuestion() {
     if (this.tarotForm.invalid) {
       return;
@@ -200,14 +189,35 @@ export class TarotFutureTellingComponent implements OnInit, OnDestroy {
     this.store.dispatch(HttpResponseStatusActions.setStatus({
       updateRequest: {
         type: HttpRequestType.TAROT_REQUEST,
-        status: HttpRequestStatus.INITIAL
+        status: LoadingStatus.INITIAL
       }
     }))
     this.store.dispatch(HttpResponseStatusActions.setStatus({
       updateRequest: {
         type: HttpRequestType.TAROT_REQUEST_ASYNC,
-        status: HttpRequestStatus.INITIAL
+        status: LoadingStatus.INITIAL
       }
     }))
+  }
+
+  pullCard(index: number) {
+    const tarotCard: TarotCard = this.nextCard();
+    // @ts-ignore
+    this.tarotForm.controls.cards.setControl(index, new FormControl<TarotCard>(tarotCard));
+  }
+
+  nextCard(): TarotCard {
+    let cardIndex = Math.floor(Math.random() * this.deck.length);
+    let tarotCard: TarotCard = this.deck[cardIndex];
+    while (this.selectedCards.includes(tarotCard)) {
+      cardIndex = Math.floor(Math.random() * this.deck.length);
+      tarotCard = this.deck[cardIndex];
+    }
+    this.selectedCards.push(tarotCard);
+    return tarotCard;
+  }
+
+  showCardDetails(index: number) {
+
   }
 }
