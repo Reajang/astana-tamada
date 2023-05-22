@@ -5,10 +5,10 @@ $black: #000000;
 
 
 /* Adaptive breakpoints */
-$sm: 575.9px !default;
-$md: 767.9px !default;
-$lg: 991.9px !default;
-$xl: 1199.9px !default;
+$phone: 559.9px !default;
+$tablet: 749.9px !default;
+$small_desk: 999.9px !default;
+$large_deck: 1199.9px !default;
 
 $max-content-width: 1440px;
 
@@ -20,12 +20,15 @@ $max-content-width: 1440px;
 }
 
 
-$primary_font: Inter, serif;
-$secondary_font: PT Serif, serif;
+$inter_font: Inter, serif;
+$serif_font: PT Serif, serif;
+$fantasy_font: Trattatello, fantasy;
+$brush_font: Brush Script MT, Brush Script Std, cursive;
+$roundhand_font: Snell Roundhand, cursive;
 
 /* Заголовки и подзаголовки */
 @mixin text-h0($text-color: $red) {
-  font-family: $secondary_font;
+  font-family: $serif_font;
   font-style: normal;
   font-weight: normal;
   font-size: 56px;
@@ -33,42 +36,60 @@ $secondary_font: PT Serif, serif;
   color: $text-color;
 }
 
-@mixin text-h2($text-color: $red) {
+@mixin text-h2($text-color: $black) {
   @include text-h0($text-color);
   font-size: 40px;
   line-height: 48px;
 }
 
-@mixin text-16($text-color: $red) {
+@mixin text-16($text-color: $black) {
   @include text-h0($text-color);
   font-size: 16px;
+  line-height: 24px;
+}
+
+@mixin text-14($text-color: $black) {
+  @include text-h0($text-color);
+  font-size: 14px;
   line-height: 24px;
 }
 
 
 /* media queries for adapt */
 
-@mixin for-sm-up {
-  @media screen and (min-width: $sm) {
+@mixin for-phone-up {
+  @media screen and (min-width: $phone) {
     @content;
   }
 }
 
-@mixin for-md-up {
-  @media screen and (min-width: $md) {
+@mixin for-tablet-up {
+  @media screen and (min-width: $tablet) {
     @content;
   }
 }
 
-@mixin for-lg-up {
-  @media screen and (min-width: $lg) {
+@mixin for-tablet-down {
+  @media screen and (max-width: $tablet) {
     @content;
   }
 }
 
-@mixin for-xl-up {
-  @media screen and (min-width: $xl) {
+@mixin for-small-desk-up {
+  @media screen and (min-width: $small_desk) {
     @content;
   }
 }
 
+@mixin for-large-desk-up {
+  @media screen and (min-width: $large_deck) {
+    @content;
+  }
+}
+
+// фон за модалками
+.p-dialog-mask.p-component-overlay {
+  background-color: rgba(62, 73, 62, 0.8);
+  overflow-x: hidden;
+  overflow-y: auto;
+}

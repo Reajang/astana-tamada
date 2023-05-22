@@ -132,7 +132,7 @@ export class TarotFutureTellingComponent implements OnInit, OnDestroy {
         this.checkResponseStatusSubmitting$.complete();
         this.dialog.open(TarotResponseViewComponent, {
           showHeader: true,
-          transitionOptions: '0ms',
+          transitionOptions: '1000ms',
           data: {
             response,
             onClose: this.onResponseModalClose,

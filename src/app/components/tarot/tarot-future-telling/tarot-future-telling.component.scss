@@ -1,8 +1,26 @@
+@import './src/styles';
+
 .cards-block {
   display: flex;
-  justify-content: space-around;
+  align-items: center;
+  flex-direction: column;
+
+  @include for-tablet-up {
+    flex-direction: row;
+    justify-content: space-around;
+  }
 }
 
+.tarot-card-view {
+  margin-bottom: 0;
+
+  &:not(:last-child) {
+    @include for-tablet-down {
+      margin-bottom: 40px;
+    }
+  }
+
+}
 
 .buttons {
   margin-top: 20px;
