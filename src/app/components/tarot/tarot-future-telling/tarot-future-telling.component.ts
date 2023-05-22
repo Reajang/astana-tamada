@@ -174,7 +174,10 @@ export class TarotFutureTellingComponent implements OnInit, OnDestroy {
     }
 
     const request = {
-      cards: this.tarotForm.controls.cards.value,
+      cards: this.tarotForm.controls.cards.value.map(cardFullInfo => ({
+        name: cardFullInfo.name,
+        id: cardFullInfo.id,
+      })),
       text: this.tarotForm.controls.question.value,
       from: this.selectedSystemLanguage,
       to: Language.EN, // Default for translate to
