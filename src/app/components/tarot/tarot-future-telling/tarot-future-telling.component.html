@@ -3,25 +3,12 @@
   <form class="tarot-form" [formGroup]="tarotForm">
 
     <div class="cards-block">
-      <div class="tarot-card-view">
-        <app-tarot-selected-card-view
-          (onCloseClick)="pullCard(0)"
-          (onOpenClick)="showCardDetails(0)"
-          [card]="tarotForm.controls.cards.at(0).value"></app-tarot-selected-card-view>
-      </div>
 
-      <div class="tarot-card-view">
+      <div class="tarot-card-view" *ngFor="let cardIndex of selectedCardIndexes">
         <app-tarot-selected-card-view
-          (onCloseClick)="pullCard(1)"
-          (onOpenClick)="showCardDetails(1)"
-          [card]="tarotForm.controls.cards.at(1).value"></app-tarot-selected-card-view>
-      </div>
-
-      <div class="tarot-card-view">
-        <app-tarot-selected-card-view
-          (onCloseClick)="pullCard(2)"
-          (onOpenClick)="showCardDetails(2)"
-          [card]="tarotForm.controls.cards.at(2).value"></app-tarot-selected-card-view>
+          (onCloseClick)="pullCard(cardIndex)"
+          (onOpenClick)="showCardDetails(cardIndex)"
+          [card]="tarotForm.controls.cards.at(cardIndex).value"></app-tarot-selected-card-view>
       </div>
     </div>
 
@@ -31,19 +18,19 @@
 
       <app-simple-button *ngIf="allFieldsFilled()"
                          (onClick)="sendQuestion()"
-                         buttonTitle="Ask question"
+                         [buttonTitle]="collocations.askButtonTitle"
                          [loadingStatus]="requestStatus$ | async"></app-simple-button>
     </div>
 
     <div class="tarot-question">
           <textarea
-            placeholder="Question"
+            [placeholder]="collocations.questionPlaceholder"
             [formControlName]="'question'"
           >
     </textarea>
     </div>
 
-    <div class="button reset-button" (click)="reset()">Reset</div>
+    <div class="button reset-button" (click)="reset()">{{collocations.resetButtonTitle}}</div>
 
   </form>
 

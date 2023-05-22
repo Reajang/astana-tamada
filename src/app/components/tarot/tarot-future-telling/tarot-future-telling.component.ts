@@ -15,6 +15,8 @@ import {selectStatus} from "../../../store/system/httprequeststatus/http-request
 import {selectJob} from "../../../store/system/job/job.selectors";
 import {Job, JobStatus} from "../../../models/system/job.model";
 import {selectLanguage} from "../../../store/system/language/language.selectors";
+import {TarotCollocations, TarotCollocationsMap} from "../../../models/tarot/tarot-collocations.model";
+
 
 interface TarotRequestModel {
   cards: FormArray<FormControl<TarotCard>>,
@@ -39,11 +41,18 @@ export class TarotFutureTellingComponent implements OnInit, OnDestroy {
   selectedCards: TarotCard[] = [];
   currentJobId: string;
   selectedSystemLanguage = Language.EN;
+  collocations: TarotCollocations;
 
   private unsubscribe$ = new Subject<void>();
   private checkResponseStatusSubmitting$ = new Subject<void>();
 
   LOADING_STATUSES = LoadingStatus;
+  numberOfGetResponseTries = 0;
+  giveUpAfterNumberOfGetResponseTries = 15;
+
+  cardsCount = 3;
+  // @ts-ignore
+  selectedCardIndexes: number[] = Array(this.cardsCount).fill().map((x, i) => i);
 
   constructor(
     private store: Store,
@@ -123,7 +132,11 @@ export class TarotFutureTellingComponent implements OnInit, OnDestroy {
       takeUntil(this.unsubscribe$),
       filter(language => !!language),
     )
-      .subscribe(language => this.selectedSystemLanguage = language);
+      .subscribe(language => {
+        this.selectedSystemLanguage = language;
+        // @ts-ignore
+        this.collocations = TarotCollocationsMap.get(this.selectedSystemLanguage);
+      });
   }
 
   private subscribeOnResponseJob() {
@@ -135,7 +148,20 @@ export class TarotFutureTellingComponent implements OnInit, OnDestroy {
       .subscribe(job => {
         if (job) {
           setTimeout(
-            () => this.store.dispatch(JobActions.getJob({jobId: this.currentJobId})),
+            () => {
+              this.store.dispatch(JobActions.getJob({jobId: this.currentJobId}));
+              this.numberOfGetResponseTries++;
+              if (this.numberOfGetResponseTries >= this.giveUpAfterNumberOfGetResponseTries) {
+                this.checkResponseStatusSubmitting$.next();
+                this.checkResponseStatusSubmitting$.complete();
+                this.store.dispatch(HttpResponseStatusActions.setStatus({
+                  updateRequest: {
+                    type: HttpRequestType.TAROT_REQUEST_ASYNC,
+                    status: LoadingStatus.FAILED,
+                  }
+                }));
+              }
+            },
             1000
           );
         }
@@ -175,6 +201,9 @@ export class TarotFutureTellingComponent implements OnInit, OnDestroy {
     this.tarotForm.controls.cards.setControl(1, new FormControl())
     this.tarotForm.controls.cards.setControl(2, new FormControl())
     this.tarotForm.controls.question.reset();
+
+    this.numberOfGetResponseTries = 0;
+
     // @ts-ignore
     this.store.dispatch(TarotActions.setResponse({response: null}))
     this.store.dispatch(TarotActions.setAskAsyncJobId({jodId: ''}))
@@ -183,13 +212,13 @@ export class TarotFutureTellingComponent implements OnInit, OnDestroy {
         type: HttpRequestType.TAROT_REQUEST,
         status: LoadingStatus.INITIAL
       }
-    }))
+    }));
     this.store.dispatch(HttpResponseStatusActions.setStatus({
       updateRequest: {
         type: HttpRequestType.TAROT_REQUEST_ASYNC,
         status: LoadingStatus.INITIAL
       }
-    }))
+    }));
   }
 
   pullCard(index: number) {
