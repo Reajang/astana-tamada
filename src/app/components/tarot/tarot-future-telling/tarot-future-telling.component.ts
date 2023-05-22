@@ -16,6 +16,7 @@ import {selectJob} from "../../../store/system/job/job.selectors";
 import {Job, JobStatus} from "../../../models/system/job.model";
 import {selectLanguage} from "../../../store/system/language/language.selectors";
 import {TarotCollocations, TarotCollocationsMap} from "../../../models/tarot/tarot-collocations.model";
+import {animate, style, transition, trigger} from "@angular/animations";
 
 
 interface TarotRequestModel {
@@ -26,7 +27,18 @@ interface TarotRequestModel {
 @Component({
   selector: 'app-tarot-future-telling',
   templateUrl: './tarot-future-telling.component.html',
-  styleUrls: ['./tarot-future-telling.component.scss']
+  styleUrls: ['./tarot-future-telling.component.scss'],
+  animations: [
+    trigger('appearDisappearTrigger', [
+      transition(':enter', [
+        style({opacity: 0}),
+        animate('3s', style({opacity: 1})),
+      ]),
+      transition(':leave', [
+        animate('3s', style({opacity: 0}))
+      ])
+    ]),
+  ]
 })
 export class TarotFutureTellingComponent implements OnInit, OnDestroy {
 

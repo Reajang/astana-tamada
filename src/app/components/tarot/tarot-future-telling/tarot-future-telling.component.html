@@ -12,11 +12,11 @@
       </div>
     </div>
 
-
     <div class="form-element buttons">
       <app-preloader-spinner [isLoading]="(requestStatus$ | async) === LOADING_STATUSES.LOADING"></app-preloader-spinner>
 
-      <app-simple-button *ngIf="allFieldsFilled()"
+      <app-simple-button @appearDisappearTrigger
+                         *ngIf="allFieldsFilled()"
                          (onClick)="sendQuestion()"
                          [buttonTitle]="collocations.askButtonTitle"
                          [loadingStatus]="requestStatus$ | async"></app-simple-button>

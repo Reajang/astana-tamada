@@ -1,7 +1,9 @@
+@import './src/styles';
+
 .header-block {
   display: flex;
   height: 50px;
-  background-color: gold;
+  background-color: $tarot_common;
   margin-bottom: 50px;
   padding: 24px;
   border-radius: 20px;
