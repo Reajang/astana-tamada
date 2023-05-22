@@ -17,6 +17,7 @@ import {Job, JobStatus} from "../../../models/system/job.model";
 import {selectLanguage} from "../../../store/system/language/language.selectors";
 import {TarotCollocations, TarotCollocationsMap} from "../../../models/tarot/tarot-collocations.model";
 import {animate, style, transition, trigger} from "@angular/animations";
+import {TarotSelectedCardViewComponent} from "./tarot-selected-card-view/tarot-selected-card-view.component";
 
 
 interface TarotRequestModel {
@@ -267,6 +268,12 @@ export class TarotFutureTellingComponent implements OnInit, OnDestroy {
   }
 
   showCardDetails(index: number) {
-
+    this.dialog.open(TarotSelectedCardViewComponent, {
+      showHeader: true,
+      transitionOptions: '500ms',
+      data: {
+        card: this.tarotForm.controls.cards.at(index).value
+      }
+    });
   }
 }

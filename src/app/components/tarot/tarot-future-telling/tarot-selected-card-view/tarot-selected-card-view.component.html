@@ -1,6 +1,6 @@
 <div class="tarot-card"
      [class.tarot-card-close]="!card"
-     [class.reversed]="card?.reversed"
+     [class.reversed]="reversable ? card?.reversed : false"
      (click)="card ? onOpenClick.emit() : onCloseClick.emit()"
 >
   <div class="tarot-card-name">{{card?.name}}</div>

@@ -26,7 +26,7 @@ import {
   TarotSelectedCardViewComponent
 } from './components/tarot/tarot-future-telling/tarot-selected-card-view/tarot-selected-card-view.component';
 import {TarotResponseViewComponent} from './components/tarot/tarot-future-telling/tarot-response-view/tarot-response-view.component';
-import {DialogService} from "primeng/dynamicdialog";
+import {DialogService, DynamicDialogConfig, DynamicDialogRef} from "primeng/dynamicdialog";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {RadioButtonModule} from "primeng/radiobutton";
 import {JobEffects} from "./store/system/job/job.effects";
@@ -92,7 +92,11 @@ import {ListboxModule} from "primeng/listbox";
     DropdownModule,
     ListboxModule
   ],
-  providers: [DialogService],
+  providers: [
+    DialogService,
+    DynamicDialogRef,
+    DynamicDialogConfig
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {
