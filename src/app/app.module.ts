@@ -11,6 +11,7 @@ import * as fromTostStore from './store/tosts/tost.reducer';
 import * as fromTarotStore from './store/tarot/tarot.reducer';
 import * as fromJobStore from './store/system/job/job.reducer';
 import * as fromHttpResponseStatusStore from './store/system/httprequeststatus/http-request-status.reducer';
+import * as fromLanguageStore from './store/system/language/language.reducer';
 import {EffectsModule} from "@ngrx/effects";
 import {TostEffects} from "./store/tosts/tost.effects";
 import {HttpClientModule} from "@angular/common/http";
@@ -29,8 +30,11 @@ import {DialogService} from "primeng/dynamicdialog";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {RadioButtonModule} from "primeng/radiobutton";
 import {JobEffects} from "./store/system/job/job.effects";
-import { PreloaderSpinnerComponent } from './components/common/preloader-spinner/preloader-spinner.component';
-import { SimpleButtonComponent } from './components/common/simple-button/simple-button.component';
+import {PreloaderSpinnerComponent} from './components/common/preloader-spinner/preloader-spinner.component';
+import {SimpleButtonComponent} from './components/common/simple-button/simple-button.component';
+import {SystemLanguageSelectorComponent} from './components/common/system-language-selector/system-language-selector.component';
+import {SelectButtonModule} from "primeng/selectbutton";
+import {DropdownModule} from "primeng/dropdown";
 
 @NgModule({
   declarations: [
@@ -46,6 +50,7 @@ import { SimpleButtonComponent } from './components/common/simple-button/simple-
     TarotResponseViewComponent,
     PreloaderSpinnerComponent,
     SimpleButtonComponent,
+    SystemLanguageSelectorComponent,
   ],
   imports: [
     BrowserModule,
@@ -69,15 +74,21 @@ import { SimpleButtonComponent } from './components/common/simple-button/simple-
       fromHttpResponseStatusStore.httpRequestStatusFeatureKey,
       fromHttpResponseStatusStore.httpResponseStatusReducer,
     ),
+    StoreModule.forFeature(
+      fromLanguageStore.languageFeatureKey,
+      fromLanguageStore.languageReducer,
+    ),
     EffectsModule.forRoot([]),
     EffectsModule.forFeature([
       TostEffects,
       TarotEffects,
-      JobEffects
+      JobEffects,
     ]),
     ReactiveFormsModule,
     RadioButtonModule,
-    FormsModule
+    FormsModule,
+    SelectButtonModule,
+    DropdownModule
   ],
   providers: [DialogService],
   bootstrap: [AppComponent]

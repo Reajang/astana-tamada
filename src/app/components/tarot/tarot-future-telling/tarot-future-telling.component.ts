@@ -14,11 +14,11 @@ import {HttpRequestType, LoadingStatus} from "../../../store/system/httprequests
 import {selectStatus} from "../../../store/system/httprequeststatus/http-request-status.selectors";
 import {selectJob} from "../../../store/system/job/job.selectors";
 import {Job, JobStatus} from "../../../models/system/job.model";
+import {selectLanguage} from "../../../store/system/language/language.selectors";
 
 interface TarotRequestModel {
   cards: FormArray<FormControl<TarotCard>>,
   question: FormControl<string>,
-  language: FormControl<Language>,
 }
 
 @Component({
@@ -29,15 +29,16 @@ interface TarotRequestModel {
 export class TarotFutureTellingComponent implements OnInit, OnDestroy {
 
   deck$: Observable<TarotCard[]>;
-  deck: TarotCard[];
-  selectedCards: TarotCard[] = [];
+  response$: Observable<TarotResponse>;
+  responseJob$: Observable<Job>;
+  requestStatus$: Observable<LoadingStatus>;
+
   tarotForm: FormGroup<TarotRequestModel>;
 
-  response$: Observable<TarotResponse>;
+  deck: TarotCard[];
+  selectedCards: TarotCard[] = [];
   currentJobId: string;
-  responseJob$: Observable<Job>;
-
-  requestStatus$: Observable<LoadingStatus>;
+  selectedSystemLanguage = Language.EN;
 
   private unsubscribe$ = new Subject<void>();
   private checkResponseStatusSubmitting$ = new Subject<void>();
@@ -61,7 +62,6 @@ export class TarotFutureTellingComponent implements OnInit, OnDestroy {
     this.tarotForm = new FormGroup<TarotRequestModel>({
       cards: new FormArray<FormControl<TarotCard>>([new FormControl(), new FormControl(), new FormControl()]),
       question: new FormControl(),
-      language: new FormControl(),
     });
   }
 
@@ -117,6 +117,13 @@ export class TarotFutureTellingComponent implements OnInit, OnDestroy {
           });
         }
       });
+
+    // system language
+    this.store.select(selectLanguage).pipe(
+      takeUntil(this.unsubscribe$),
+      filter(language => !!language),
+    )
+      .subscribe(language => this.selectedSystemLanguage = language);
   }
 
   private subscribeOnResponseJob() {
@@ -129,7 +136,7 @@ export class TarotFutureTellingComponent implements OnInit, OnDestroy {
         if (job) {
           setTimeout(
             () => this.store.dispatch(JobActions.getJob({jobId: this.currentJobId})),
-            500
+            1000
           );
         }
       });
@@ -141,20 +148,10 @@ export class TarotFutureTellingComponent implements OnInit, OnDestroy {
     }
 
     const request = {
-      cards: [
-        {
-          name: this.tarotForm.controls.cards.at(0).value.name,
-        },
-        {
-          name: this.tarotForm.controls.cards.at(1).value.name,
-        },
-        {
-          name: this.tarotForm.controls.cards.at(2).value.name,
-        }
-      ],
+      cards: this.tarotForm.controls.cards.value,
       text: this.tarotForm.controls.question.value,
-      from: this.tarotForm.controls.language.value || Language.EN,
-      to: Language.EN,
+      from: this.selectedSystemLanguage,
+      to: Language.EN, // Default for translate to
     }
     this.store.dispatch(TarotActions.askQuestionAsync({request}));
   }
@@ -166,12 +163,6 @@ export class TarotFutureTellingComponent implements OnInit, OnDestroy {
       && this.tarotForm.controls.question?.value
   }
 
-  canPullAnotherCard(): boolean {
-    return !(this.tarotForm.controls.cards.at(0)?.value
-      && this.tarotForm.controls.cards.at(1)?.value
-      && this.tarotForm.controls.cards.at(2)?.value);
-  }
-
   ngOnDestroy(): void {
     this.reset();
     this.unsubscribe$.next();
@@ -180,9 +171,10 @@ export class TarotFutureTellingComponent implements OnInit, OnDestroy {
 
   reset(): void {
     this.selectedCards = [];
-    this.tarotForm.controls.cards.clear();
+    this.tarotForm.controls.cards.setControl(0, new FormControl())
+    this.tarotForm.controls.cards.setControl(1, new FormControl())
+    this.tarotForm.controls.cards.setControl(2, new FormControl())
     this.tarotForm.controls.question.reset();
-    this.tarotForm.controls.language.reset();
     // @ts-ignore
     this.store.dispatch(TarotActions.setResponse({response: null}))
     this.store.dispatch(TarotActions.setAskAsyncJobId({jodId: ''}))

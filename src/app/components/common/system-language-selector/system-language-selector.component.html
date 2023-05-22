@@ -1,0 +1,36 @@
+<div class="language-block">
+  <p-dropdown
+    (onChange)="onLanguageSelect()"
+    [options]="languages"
+    [(ngModel)]="selectedLanguage"
+    optionLabel="title"
+    filterBy="name"
+    [showClear]="true"
+    placeholder="Select a language">
+    <ng-template pTemplate="selectedItem">
+      <div class="flex align-items-center gap-2" *ngIf="selectedLanguage">
+        <img src="https://primefaces.org/cdn/primeng/images/demo/flag/flag_placeholder.png"
+             [class]="'flag flag-' + selectedLanguage.value.toLowerCase()" style="width: 18px"/>
+        <div>{{ selectedLanguage.title }}</div>
+      </div>
+    </ng-template>
+    <ng-template let-lang pTemplate="item">
+      <div class="flex align-items-center gap-2">
+        <img src="https://primefaces.org/cdn/primeng/images/demo/flag/flag_placeholder.png"
+             [class]="'flag flag-' + lang.value.toLowerCase()" style="width: 18px"/>
+        <div>{{ lang.title }}</div>
+      </div>
+    </ng-template>
+  </p-dropdown>
+
+<!--  <p-dropdown-->
+<!--    (onChange)="onLanguageSelect()"-->
+<!--    [options]="languages"-->
+<!--    [(ngModel)]="selectedLanguage"-->
+<!--    optionLabel="title"-->
+<!--    optionValue="value"-->
+<!--    [editable]="false"-->
+<!--    [filter]="false"-->
+<!--  ></p-dropdown>-->
+
+</div>
