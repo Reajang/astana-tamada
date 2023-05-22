@@ -15,7 +15,7 @@ export class SystemLanguageSelectorComponent {
 
   @Output() onLanguageChange: EventEmitter<Language> = new EventEmitter<Language>();
 
-  selectedLanguage: SelectableValue;
+  selectedLanguage: Language;
   languages: SelectableValue[] = [
     {
       title: "English",
@@ -34,10 +34,10 @@ export class SystemLanguageSelectorComponent {
   }
 
   onLanguageSelect() {
-    this.onLanguageChange.emit(this.selectedLanguage.value);
+    this.onLanguageChange.emit(this.selectedLanguage);
 
     if (this.changeLangInStoreOnSelect) {
-      this.store.dispatch(setLanguage({language: this.selectedLanguage.value}));
+      this.store.dispatch(setLanguage({language: this.selectedLanguage}));
     }
   }
 }

@@ -35,6 +35,7 @@ import {SimpleButtonComponent} from './components/common/simple-button/simple-bu
 import {SystemLanguageSelectorComponent} from './components/common/system-language-selector/system-language-selector.component';
 import {SelectButtonModule} from "primeng/selectbutton";
 import {DropdownModule} from "primeng/dropdown";
+import {ListboxModule} from "primeng/listbox";
 
 @NgModule({
   declarations: [
@@ -88,7 +89,8 @@ import {DropdownModule} from "primeng/dropdown";
     RadioButtonModule,
     FormsModule,
     SelectButtonModule,
-    DropdownModule
+    DropdownModule,
+    ListboxModule
   ],
   providers: [DialogService],
   bootstrap: [AppComponent]

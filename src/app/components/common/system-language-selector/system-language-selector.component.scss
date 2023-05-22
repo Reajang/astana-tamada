@@ -1,0 +1,13 @@
+@import './src/styles';
+
+::ng-deep  .language-block {
+  p-dropdown {
+    .p-hidden-accessible {
+      display: none;
+    }
+
+    .p-dropdown-label{
+      @include text-16($black);
+    }
+  }
+}

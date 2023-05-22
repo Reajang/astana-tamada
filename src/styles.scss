@@ -1,1 +1,73 @@
 /* You can add global styles to this file, and also import other style files */
+$red: #f74027;
+$black: #000000;
+
+
+/* Adaptive breakpoints */
+$sm: 575.9px !default;
+$md: 767.9px !default;
+$lg: 991.9px !default;
+$xl: 1199.9px !default;
+
+$max-content-width: 1440px;
+
+
+@mixin border-default($border-color: $red) {
+  border: 1px solid $border-color;
+  box-sizing: border-box;
+  border-radius: 2px;
+}
+
+
+$primary_font: Inter, serif;
+$secondary_font: PT Serif, serif;
+
+/* Заголовки и подзаголовки */
+@mixin text-h0($text-color: $red) {
+  font-family: $secondary_font;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 56px;
+  line-height: 64px;
+  color: $text-color;
+}
+
+@mixin text-h2($text-color: $red) {
+  @include text-h0($text-color);
+  font-size: 40px;
+  line-height: 48px;
+}
+
+@mixin text-16($text-color: $red) {
+  @include text-h0($text-color);
+  font-size: 16px;
+  line-height: 24px;
+}
+
+
+/* media queries for adapt */
+
+@mixin for-sm-up {
+  @media screen and (min-width: $sm) {
+    @content;
+  }
+}
+
+@mixin for-md-up {
+  @media screen and (min-width: $md) {
+    @content;
+  }
+}
+
+@mixin for-lg-up {
+  @media screen and (min-width: $lg) {
+    @content;
+  }
+}
+
+@mixin for-xl-up {
+  @media screen and (min-width: $xl) {
+    @content;
+  }
+}
+
