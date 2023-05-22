@@ -21,6 +21,7 @@ export class TarotResponseViewComponent implements OnInit {
     if (this.config.data) {
       this.response = this.config.data.response;
     }
+    this.ref.onClose.subscribe(event => this.config.data.onClose.emit())
   }
 
 }

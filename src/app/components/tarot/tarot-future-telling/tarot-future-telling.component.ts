@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, EventEmitter, OnDestroy, OnInit} from '@angular/core';
 import {filter, Observable, Subject, takeUntil} from "rxjs";
 import {TarotCard, TarotResponse} from "../../../models/tarot/tarot.model";
 import {Store} from "@ngrx/store";
@@ -45,6 +45,7 @@ export class TarotFutureTellingComponent implements OnInit, OnDestroy {
 
   private unsubscribe$ = new Subject<void>();
   private checkResponseStatusSubmitting$ = new Subject<void>();
+  private onResponseModalClose: EventEmitter<any> = new EventEmitter<any>();
 
   LOADING_STATUSES = LoadingStatus;
   numberOfGetResponseTries = 0;
@@ -112,19 +113,27 @@ export class TarotFutureTellingComponent implements OnInit, OnDestroy {
     // response
     this.response$.pipe(
       takeUntil(this.unsubscribe$),
+      filter(respose => !!respose),
     )
       .subscribe(response => {
-        if (response) {
-          this.checkResponseStatusSubmitting$.next();
-          this.checkResponseStatusSubmitting$.complete();
-          this.dialog.open(TarotResponseViewComponent, {
-            showHeader: true,
-            transitionOptions: '0ms',
-            data: {
-              response
-            }
-          });
-        }
+        this.checkResponseStatusSubmitting$.next();
+        this.checkResponseStatusSubmitting$.complete();
+        this.dialog.open(TarotResponseViewComponent, {
+          showHeader: true,
+          transitionOptions: '0ms',
+          data: {
+            response,
+            onClose: this.onResponseModalClose,
+          }
+        });
+      });
+
+    // on close response modal
+    this.onResponseModalClose.pipe(
+      takeUntil(this.unsubscribe$),
+    )
+      .subscribe(closeEvent => {
+        this.resetResponseExpectations();
       });
 
     // system language
@@ -186,10 +195,11 @@ export class TarotFutureTellingComponent implements OnInit, OnDestroy {
   }
 
   allFieldsFilled() {
-    return this.tarotForm.controls.cards.at(0)?.value
-      && this.tarotForm.controls.cards.at(1)?.value
-      && this.tarotForm.controls.cards.at(2)?.value
-      && this.tarotForm.controls.question?.value
+    let allCardsAreOpened = true;
+    for (const cardIndex of this.selectedCardIndexes) {
+      allCardsAreOpened = allCardsAreOpened && !!this.tarotForm.controls.cards.at(cardIndex)?.value;
+    }
+    return allCardsAreOpened && this.tarotForm.controls.question?.value
   }
 
   ngOnDestroy(): void {
@@ -200,13 +210,16 @@ export class TarotFutureTellingComponent implements OnInit, OnDestroy {
 
   reset(): void {
     this.selectedCards = [];
-    this.tarotForm.controls.cards.setControl(0, new FormControl())
-    this.tarotForm.controls.cards.setControl(1, new FormControl())
-    this.tarotForm.controls.cards.setControl(2, new FormControl())
+    for (const cardIndex of this.selectedCardIndexes) {
+      this.tarotForm.controls.cards.setControl(cardIndex, new FormControl())
+    }
     this.tarotForm.controls.question.reset();
 
     this.numberOfGetResponseTries = 0;
+    this.resetResponseExpectations();
+  }
 
+  private resetResponseExpectations() {
     // @ts-ignore
     this.store.dispatch(TarotActions.setResponse({response: null}))
     this.store.dispatch(TarotActions.setAskAsyncJobId({jodId: ''}))
