@@ -57,6 +57,12 @@ $roundhand_font: Snell Roundhand, cursive;
 
 /* media queries for adapt */
 
+@mixin for-extra-small {
+  @media screen and (max-width: $phone) {
+    @content;
+  }
+}
+
 @mixin for-phone-up {
   @media screen and (min-width: $phone) {
     @content;

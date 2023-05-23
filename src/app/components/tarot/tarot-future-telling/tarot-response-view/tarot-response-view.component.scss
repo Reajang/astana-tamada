@@ -2,10 +2,22 @@
 
 .tarot-response {
   background-color: $tarot_common;
-  width: 60em;
+  width: 25rem;
   border: 2px solid $black;
   border-radius: 25px;
   padding: 20px;
+
+  @include for-extra-small {
+    width: 18rem;
+  }
+
+  @include for-tablet-up {
+    width: 40rem;
+  }
+
+  @include for-small-desk-up {
+    width: 60rem;
+  }
 }
 
 .tarot-response_text {

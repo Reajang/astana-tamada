@@ -165,28 +165,27 @@ export class TarotFutureTellingComponent implements OnInit, OnDestroy {
     this.responseJob$
       .pipe(
         takeUntil(this.checkResponseStatusSubmitting$),
-        filter(job => JobStatus.RUNNING === job?.status || JobStatus.IDLE === job?.status),
+        filter(job => !!job),
+        filter(job => JobStatus.RUNNING === job.status || JobStatus.IDLE === job.status),
       )
       .subscribe(job => {
-        if (job) {
-          setTimeout(
-            () => {
-              this.store.dispatch(JobActions.getJob({jobId: this.currentJobId}));
-              this.numberOfGetResponseTries++;
-              if (this.numberOfGetResponseTries >= this.giveUpAfterNumberOfGetResponseTries) {
-                this.checkResponseStatusSubmitting$.next();
-                this.checkResponseStatusSubmitting$.complete();
-                this.store.dispatch(HttpResponseStatusActions.setStatus({
-                  updateRequest: {
-                    type: HttpRequestType.TAROT_REQUEST_ASYNC,
-                    status: LoadingStatus.FAILED,
-                  }
-                }));
-              }
-            },
-            1000
-          );
-        }
+        setTimeout(
+          () => {
+            this.store.dispatch(JobActions.getJob({jobId: this.currentJobId}));
+            this.numberOfGetResponseTries++;
+            if (this.numberOfGetResponseTries >= this.giveUpAfterNumberOfGetResponseTries) {
+              this.checkResponseStatusSubmitting$.next();
+              this.checkResponseStatusSubmitting$.complete();
+              this.store.dispatch(HttpResponseStatusActions.setStatus({
+                updateRequest: {
+                  type: HttpRequestType.TAROT_REQUEST_ASYNC,
+                  status: LoadingStatus.FAILED,
+                }
+              }));
+            }
+          },
+          1000
+        );
       });
   }
 
