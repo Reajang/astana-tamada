@@ -1,12 +1,10 @@
 #loader {
   bottom: 0;
-  height: 175px;
   left: 0;
   margin: auto;
   position: absolute;
   right: 0;
   top: 0;
-  width: 175px;
 }
 
 #loader .dot {
@@ -14,10 +12,9 @@
   height: 100%;
   left: 0;
   margin: auto;
-  position: absolute;;
+  position: absolute;
   right: 0;
   top: 0;
-  width: 90px;
 }
 
 #loader .dot::before {

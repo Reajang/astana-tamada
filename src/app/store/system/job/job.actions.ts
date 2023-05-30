@@ -10,3 +10,8 @@ export const setJob = createAction(
   '[Job] set Job',
   props<{ job: Job }>(),
 );
+
+export const setJobFailed = createAction(
+  '[Job] set Job failed',
+  props<{ jobId: string }>(),
+);

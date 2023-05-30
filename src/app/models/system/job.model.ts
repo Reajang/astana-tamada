@@ -1,7 +1,7 @@
 export interface Job {
   id: string;
-  createDate: Date;
-  updateDate: Date;
+  createDate?: Date;
+  updateDate?: Date;
   type: JobType | string;
   status: JobStatus | string;
   results?: JobResult[];

@@ -2,6 +2,8 @@
 $red: #f74027;
 $tarot_common: #eeeac2;
 $black: #000000;
+$white_smoke: whitesmoke;
+$wheat: wheat;
 
 
 /* Adaptive breakpoints */
@@ -42,6 +44,12 @@ $roundhand_font: Snell Roundhand, cursive;
   line-height: 48px;
 }
 
+@mixin text-20($text-color: $black) {
+  @include text-h0($text-color);
+  font-size: 20px;
+  line-height: 28px;
+}
+
 @mixin text-16($text-color: $black) {
   @include text-h0($text-color);
   font-size: 16px;
@@ -52,6 +60,12 @@ $roundhand_font: Snell Roundhand, cursive;
   @include text-h0($text-color);
   font-size: 14px;
   line-height: 24px;
+}
+
+@mixin text-10($text-color: $black) {
+  @include text-h0($text-color);
+  font-size: 10px;
+  line-height: 18px;
 }
 
 

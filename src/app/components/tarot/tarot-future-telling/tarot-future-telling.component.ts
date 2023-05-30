@@ -7,7 +7,6 @@ import * as TarotActions from "../../../store/tarot/tarot.actions";
 import * as JobActions from "../../../store/system/job/job.actions";
 import * as HttpResponseStatusActions from "../../../store/system/httprequeststatus/http-request-status.action";
 import {selectLastRequestJobId, selectTarotDesk, selectTarotResponse} from "../../../store/tarot/tarot.selectors";
-import {DialogService} from "primeng/dynamicdialog";
 import {TarotResponseViewComponent} from "./tarot-response-view/tarot-response-view.component";
 import {Language} from "../../../models/common/language.model";
 import {HttpRequestType, LoadingStatus} from "../../../store/system/httprequeststatus/http-request-status.reducer";
@@ -16,8 +15,9 @@ import {selectJob} from "../../../store/system/job/job.selectors";
 import {Job, JobStatus} from "../../../models/system/job.model";
 import {selectLanguage} from "../../../store/system/language/language.selectors";
 import {TarotCollocations, TarotCollocationsMap} from "../../../models/tarot/tarot-collocations.model";
-import {animate, style, transition, trigger} from "@angular/animations";
 import {TarotSelectedCardViewComponent} from "./tarot-selected-card-view/tarot-selected-card-view.component";
+import {appearDisappearAnimation} from "../../../animations/appear-disappear-animation";
+import {ModalService} from "../../../services/system/modal.service";
 
 
 interface TarotRequestModel {
@@ -29,17 +29,7 @@ interface TarotRequestModel {
   selector: 'app-tarot-future-telling',
   templateUrl: './tarot-future-telling.component.html',
   styleUrls: ['./tarot-future-telling.component.scss'],
-  animations: [
-    trigger('appearDisappearTrigger', [
-      transition(':enter', [
-        style({opacity: 0}),
-        animate('3s', style({opacity: 1})),
-      ]),
-      transition(':leave', [
-        animate('3s', style({opacity: 0}))
-      ])
-    ]),
-  ]
+  animations: [appearDisappearAnimation]
 })
 export class TarotFutureTellingComponent implements OnInit, OnDestroy {
 
@@ -59,10 +49,11 @@ export class TarotFutureTellingComponent implements OnInit, OnDestroy {
   private unsubscribe$ = new Subject<void>();
   private checkResponseStatusSubmitting$ = new Subject<void>();
   private onResponseModalClose: EventEmitter<any> = new EventEmitter<any>();
+  private onPageLoadingModalClose: EventEmitter<any> = new EventEmitter<any>();
 
-  LOADING_STATUSES = LoadingStatus;
+  responseAlreadyGot = false;
   numberOfGetResponseTries = 0;
-  giveUpAfterNumberOfGetResponseTries = 15;
+  giveUpAfterNumberOfGetResponseTries = 30;
 
   cardsCount = 3;
   // @ts-ignore
@@ -70,7 +61,7 @@ export class TarotFutureTellingComponent implements OnInit, OnDestroy {
 
   constructor(
     private store: Store,
-    private dialog: DialogService,
+    private modalService: ModalService,
   ) {
   }
 
@@ -87,7 +78,6 @@ export class TarotFutureTellingComponent implements OnInit, OnDestroy {
       question: new FormControl(),
     });
   }
-
 
   private dispatches() {
     this.store.dispatch(TarotActions.getDeck({}));
@@ -131,14 +121,18 @@ export class TarotFutureTellingComponent implements OnInit, OnDestroy {
       .subscribe(response => {
         this.checkResponseStatusSubmitting$.next();
         this.checkResponseStatusSubmitting$.complete();
-        this.dialog.open(TarotResponseViewComponent, {
-          showHeader: true,
-          transitionOptions: '1000ms',
-          data: {
+        this.onPageLoadingModalClose.emit('close');
+        this.modalService.showModal(
+          TarotResponseViewComponent,
+          {
             response,
             onClose: this.onResponseModalClose,
+          },
+          {
+            showHeader: true,
+            transitionOptions: '1000ms',
           }
-        });
+        );
       });
 
     // on close response modal
@@ -182,9 +176,12 @@ export class TarotFutureTellingComponent implements OnInit, OnDestroy {
                   status: LoadingStatus.FAILED,
                 }
               }));
+              // считать за ошибку если бэк не доделал джобу за время ожидания
+              this.store.dispatch(JobActions.setJobFailed({jobId: this.currentJobId}));
+              this.onPageLoadingModalClose.emit('close');
             }
           },
-          1000
+          1500
         );
       });
   }
@@ -204,6 +201,11 @@ export class TarotFutureTellingComponent implements OnInit, OnDestroy {
       to: Language.EN, // Default for translate to
     }
     this.store.dispatch(TarotActions.askQuestionAsync({request}));
+    this.modalService.showFullPagePreloaderPopup(
+      {
+        closeRequest: this.onPageLoadingModalClose,
+      }
+    );
   }
 
   allFieldsFilled() {
@@ -211,7 +213,7 @@ export class TarotFutureTellingComponent implements OnInit, OnDestroy {
     for (const cardIndex of this.selectedCardIndexes) {
       allCardsAreOpened = allCardsAreOpened && !!this.tarotForm.controls.cards.at(cardIndex)?.value;
     }
-    return allCardsAreOpened && this.tarotForm.controls.question?.value
+    return !this.responseAlreadyGot && allCardsAreOpened && this.tarotForm.controls.question?.value
   }
 
   ngOnDestroy(): void {
@@ -229,6 +231,8 @@ export class TarotFutureTellingComponent implements OnInit, OnDestroy {
 
     this.numberOfGetResponseTries = 0;
     this.resetResponseExpectations();
+    this.checkResponseStatusSubmitting$ = new Subject<void>();
+    this.responseAlreadyGot = false;
   }
 
   private resetResponseExpectations() {
@@ -247,6 +251,10 @@ export class TarotFutureTellingComponent implements OnInit, OnDestroy {
         status: LoadingStatus.INITIAL
       }
     }));
+    this.responseAlreadyGot = true;
+    this.onPageLoadingModalClose.emit('close');
+    this.checkResponseStatusSubmitting$.next();
+    this.checkResponseStatusSubmitting$.complete();
   }
 
   pullCard(index: number) {
@@ -267,12 +275,15 @@ export class TarotFutureTellingComponent implements OnInit, OnDestroy {
   }
 
   showCardDetails(index: number) {
-    this.dialog.open(TarotSelectedCardViewComponent, {
-      showHeader: true,
-      transitionOptions: '500ms',
-      data: {
-        card: this.tarotForm.controls.cards.at(index).value
+    this.modalService.showModal(
+      TarotSelectedCardViewComponent,
+      {
+        card: this.tarotForm.controls.cards.at(index).value,
+      },
+      {
+        showHeader: true,
+        transitionOptions: '500ms',
       }
-    });
+    );
   }
 }

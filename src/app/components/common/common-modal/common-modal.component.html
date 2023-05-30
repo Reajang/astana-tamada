@@ -1,0 +1,33 @@
+<div class="common-modal">
+
+  <div class="title-bar">
+    <div class="modal-title">{{caption}}</div>
+    <div class="mdi mdi-close close-button"
+         (click)="close()"
+    >
+    </div>
+  </div>
+
+  <div class="modal-content">
+    <div class="message" [innerHTML]="message"></div>
+  </div>
+
+  <div class="modal-footer">
+    <ng-container *ngIf="!dialogMode; else dialogFooter">
+      <div class="dialog-buttons-wrapper">
+        <app-simple-button class="modal-button"
+                           [buttonTitle]="okButtonLabel"
+                           (onClick)="callback()"></app-simple-button>
+      </div>
+    </ng-container>
+    <ng-template #dialogFooter>
+      <div class="dialog-buttons-wrapper">
+        <app-simple-button class="modal-button" [buttonTitle]="cancelButtonLabel"
+                           (onClick)="cancel()"></app-simple-button>
+        <app-simple-button class="modal-button" [buttonTitle]="okButtonLabel"
+                           (onClick)="callback()"></app-simple-button>
+      </div>
+    </ng-template>
+  </div>
+</div>
+

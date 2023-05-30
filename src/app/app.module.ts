@@ -36,6 +36,8 @@ import {SystemLanguageSelectorComponent} from './components/common/system-langua
 import {SelectButtonModule} from "primeng/selectbutton";
 import {DropdownModule} from "primeng/dropdown";
 import {ListboxModule} from "primeng/listbox";
+import { CommonModalComponent } from './components/common/common-modal/common-modal.component';
+import { FullPagePreloaderComponent } from './components/common/full-page-preloader/full-page-preloader.component';
 
 @NgModule({
   declarations: [
@@ -52,6 +54,8 @@ import {ListboxModule} from "primeng/listbox";
     PreloaderSpinnerComponent,
     SimpleButtonComponent,
     SystemLanguageSelectorComponent,
+    CommonModalComponent,
+    FullPagePreloaderComponent,
   ],
   imports: [
     BrowserModule,

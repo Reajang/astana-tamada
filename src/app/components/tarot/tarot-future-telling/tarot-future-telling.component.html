@@ -12,14 +12,22 @@
       </div>
     </div>
 
-    <div class="form-element buttons">
-      <app-preloader-spinner [isLoading]="(requestStatus$ | async) === LOADING_STATUSES.LOADING"></app-preloader-spinner>
+    <div class="response-gotten-message"
+         *ngIf="responseAlreadyGot"
+    >
+      <span class="response-gotten-message_text">{{collocations.responseAlreadyGot}}</span>
+    </div>
 
-      <app-simple-button @appearDisappearTrigger
-                         *ngIf="allFieldsFilled()"
-                         (onClick)="sendQuestion()"
-                         [buttonTitle]="collocations.askButtonTitle"
-                         [loadingStatus]="requestStatus$ | async"></app-simple-button>
+    <div class="form-element buttons">
+      <!--wrapper with double ngIf for avoid bag with multiple animations https://github.com/angular/angular/issues/26133-->
+      <div *ngIf="allFieldsFilled()">
+        <app-simple-button @appearDisappearTrigger
+                           *ngIf="allFieldsFilled()"
+                           (onClick)="sendQuestion()"
+                           [buttonTitle]="collocations.askButtonTitle"
+                           [loadingStatus]="requestStatus$ | async"></app-simple-button>
+      </div>
+
     </div>
 
     <div class="tarot-question">

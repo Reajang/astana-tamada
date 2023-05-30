@@ -35,26 +35,17 @@
   padding: 4px;
   width: 12em;
   height: 3em;
-  background-color: wheat;
+  background-color: $wheat;
   border: 2px solid #837739;
-
-
-  font-family: Inter, serif;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 16px;
-  line-height: 24px;
-  color: black;
+  @include text-16();
   text-align: center;
 
   &.reset-button {
     margin-top: 30px;
     background-color: aliceblue;
-    color: firebrick;
     width: 6em;
     height: auto;
-    font-size: 10px;
-    line-height: 18px;
+    @include text-10(firebrick);
   }
 }
 
@@ -71,3 +62,18 @@
   }
 }
 
+.response-gotten-message {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  margin: 30px auto 20px auto;
+  width: 80%;
+  background-color: $wheat;
+  border: 2px solid #837739;
+  border-radius: 5px;
+
+  .response-gotten-message_text {
+    @include text-20();
+  }
+}

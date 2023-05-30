@@ -1,0 +1,103 @@
+@import './src/styles';
+
+.common-modal {
+  flex-direction: column;
+  width: 16rem;
+  background-color: $white_smoke;
+  border-radius: 20px;
+  border: 5px solid $wheat;
+
+  @include for-tablet-up {
+    display: flex;
+    width: 30rem;
+  }
+
+  @include for-large-desk-up {
+    width: 40rem;
+  }
+
+  .title-bar {
+    color: $black;
+    display: flex;
+    font-size: 24px;
+    font-weight: 500;
+    line-height: 32px;
+    padding: 32px 10px;
+
+    @include for-tablet-up {
+      padding: 32px 26px;
+    }
+
+    .modal-title {
+      flex-grow: 1;
+    }
+
+    .close-button {
+      cursor: pointer;
+    }
+  }
+
+  .modal-content {
+    align-items: center;
+    height: auto;
+    padding: 0 10px;
+
+    @include for-tablet-up {
+      display: flex;
+      padding: 0 26px;
+    }
+
+    img {
+      align-self: flex-start;
+    }
+
+    .message {
+      color: black;
+      font-size: 16px;
+      line-height: 24px;
+      padding-top: 16px;
+
+      @include for-tablet-up {
+        padding: 0 0 0 24px;
+      }
+
+      @include for-large-desk-up {
+        padding: 0 0 0 30px;
+      }
+
+      word-break: break-word;
+      white-space: pre-line;
+    }
+  }
+
+  .modal-footer {
+    //background-color: white !important;
+    padding: 30px 0 32px 0;
+  }
+
+  .dialog-buttons-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    app-simple-button:not(:last-child) {
+      margin-bottom: 20px;
+      margin-right: 0;
+    }
+
+    @include for-tablet-up {
+      flex-direction: row;
+
+      app-simple-button:not(:last-child) {
+        margin-right: 30px;
+        margin-bottom: 0;
+      }
+    }
+  }
+}
+
+.modal-button {
+  height: 48px;
+  min-width: 123px;
+}
