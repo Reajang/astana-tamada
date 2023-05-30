@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
+import {AppRouteConstants} from "../../app.constants";
 
 @Component({
   selector: 'app-header',
@@ -7,9 +8,6 @@ import {Router} from "@angular/router";
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
-
-  tarotStartPath = "/tarot"
-
 
   constructor(
     private router: Router,
@@ -21,6 +19,6 @@ export class HeaderComponent implements OnInit {
   }
 
   notTarot(): boolean {
-    return !this.router.url?.startsWith(this.tarotStartPath);
+    return !this.router.url?.startsWith(AppRouteConstants.tarotStartPath);
   }
 }

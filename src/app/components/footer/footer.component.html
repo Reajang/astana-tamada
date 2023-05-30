@@ -1,4 +1,9 @@
 <div class="footer-block">
-  <div class="footer-side">
+  <div class="footer-side footer-right-side">
+    <div *ngIf="isTarot">
+      <span>{{collocations.disclaimerText}}</span><br>
+      <a href="{{collocations.disclaimerRef}}" target="_blank">{{collocations.disclaimerRef}}</a>
+      <i class="mdi mdi-copyright"></i>
+    </div>
   </div>
 </div>
