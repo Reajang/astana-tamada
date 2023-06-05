@@ -55,4 +55,20 @@ jobs:
           context: .
           file: ./docker/Dockerfile
           push: true
-          tags: leonidgarin/astana-ui:latest, leonidgarin/astana-ui:v3.2.2
+            #          github.ref_name is release tag
+          tags: leonidgarin/astana-ui:latest, leonidgarin/astana-ui:${{ github.ref_name }}
+
+  deploy:
+    name: Deploy
+    needs: push_to_docker_hub
+    runs-on: ubuntu-latest
+    environment: production
+
+    steps:
+      - name: Run docker compose on EC2 via ssh
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+          host: ${{ secrets.AWS_EC2_HOST }}
+          username: ${{ secrets.AWS_UBUNTU_USER }}
+          key: ${{ secrets.AWS_LOCAL_PK }}
+          script: sudo docker-compose up -d
