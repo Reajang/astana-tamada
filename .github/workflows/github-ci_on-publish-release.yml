@@ -71,4 +71,9 @@ jobs:
           host: ${{ secrets.AWS_EC2_HOST }}
           username: ${{ secrets.AWS_UBUNTU_USER }}
           key: ${{ secrets.AWS_LOCAL_PK }}
-          script: sudo docker-compose up --build -d ui
+          script: |
+            sudo docker-compose stop ui
+            sudo docker-compose rm -f ui
+            sudo docker-compose pull ui
+            sudo docker-compose up --build -d ui
+            sudo docker system prune -a -f
