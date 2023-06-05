@@ -1,7 +1,11 @@
-name: tarot frontend build and test
-on: [ push ]
+name: Publish Docker image release version
+
+on:
+  release:
+    types: [ published ]
+
 jobs:
-  build:
+  build_package:
     runs-on: ubuntu-latest
     steps:
       - name: Check out the repo
@@ -27,7 +31,7 @@ jobs:
 
   push_to_docker_hub:
     name: Push Docker image to Docker Hub
-    needs: build
+    needs: build_package
     runs-on: ubuntu-latest
     steps:
       - name: Check out the repo
@@ -52,22 +56,3 @@ jobs:
           file: ./docker/Dockerfile
           push: true
           tags: leonidgarin/astana-ui:latest, leonidgarin/astana-ui:v3.2.1
-
-
-#  test:
-#    needs: build
-#    runs-on: ubuntu-latest
-#    steps:
-#      - name: Check out the repo
-#        uses: actions/checkout@v3
-#
-#      - name: Setup Node.js
-#        uses: actions/setup-node@v3
-#        with:
-#          node-version: '20.x'
-#
-#      - name: Install dependencies
-#        run: npm ci --force
-#
-#      - name: Run tests
-#        run: npm test --browsers=ChromeHeadless
