@@ -55,4 +55,4 @@ jobs:
           context: .
           file: ./docker/Dockerfile
           push: true
-          tags: leonidgarin/astana-ui:latest, leonidgarin/astana-ui:v3.2.1
+          tags: leonidgarin/astana-ui:latest, leonidgarin/astana-ui:v3.2.2
