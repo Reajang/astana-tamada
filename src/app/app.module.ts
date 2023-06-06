@@ -3,22 +3,16 @@ import {BrowserModule} from '@angular/platform-browser';
 
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
-import {TostsListComponent} from './components/tosts/tosts-list/tosts-list.component';
-import {TostListCardComponent} from './components/tosts/tosts-list/tost-list-card/tost-list-card.component';
 import {StoreModule} from "@ngrx/store";
 
-import * as fromTostStore from './store/tosts/tost.reducer';
 import * as fromTarotStore from './store/tarot/tarot.reducer';
 import * as fromJobStore from './store/system/job/job.reducer';
 import * as fromHttpResponseStatusStore from './store/system/httprequeststatus/http-request-status.reducer';
 import * as fromLanguageStore from './store/system/language/language.reducer';
 import {EffectsModule} from "@ngrx/effects";
-import {TostEffects} from "./store/tosts/tost.effects";
 import {HttpClientModule} from "@angular/common/http";
 import {HeaderComponent} from './components/header/header.component';
 import {FooterComponent} from './components/footer/footer.component';
-import {TostEditComponent} from './components/tosts/tost-edit/tost-edit.component';
-import {TostEditCardComponent} from './components/tosts/tost-edit/tost-edit-card/tost-edit-card.component';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {TarotFutureTellingComponent} from './components/tarot/tarot-future-telling/tarot-future-telling.component';
 import {TarotEffects} from "./store/tarot/tarot.effects";
@@ -36,18 +30,14 @@ import {SystemLanguageSelectorComponent} from './components/common/system-langua
 import {SelectButtonModule} from "primeng/selectbutton";
 import {DropdownModule} from "primeng/dropdown";
 import {ListboxModule} from "primeng/listbox";
-import { CommonModalComponent } from './components/common/common-modal/common-modal.component';
-import { FullPagePreloaderComponent } from './components/common/full-page-preloader/full-page-preloader.component';
+import {CommonModalComponent} from './components/common/common-modal/common-modal.component';
+import {FullPagePreloaderComponent} from './components/common/full-page-preloader/full-page-preloader.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    TostsListComponent,
-    TostListCardComponent,
     HeaderComponent,
     FooterComponent,
-    TostEditComponent,
-    TostEditCardComponent,
     TarotFutureTellingComponent,
     TarotSelectedCardViewComponent,
     TarotResponseViewComponent,
@@ -63,10 +53,6 @@ import { FullPagePreloaderComponent } from './components/common/full-page-preloa
     HttpClientModule,
     BrowserAnimationsModule,
     StoreModule.forRoot({}),
-    StoreModule.forFeature(
-      fromTostStore.tostFeatureKey,
-      fromTostStore.tostReduser,
-    ),
     StoreModule.forFeature(
       fromTarotStore.tarotFeatureKey,
       fromTarotStore.tarotReduser,
@@ -85,7 +71,6 @@ import { FullPagePreloaderComponent } from './components/common/full-page-preloa
     ),
     EffectsModule.forRoot([]),
     EffectsModule.forFeature([
-      TostEffects,
       TarotEffects,
       JobEffects,
     ]),

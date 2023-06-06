@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "astana-ui": {
+    "tarot": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -20,7 +20,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/astana-ui",
+            "outputPath": "dist/tarot",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -74,10 +74,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "astana-ui:build:production"
+              "browserTarget": "tarot:build:production"
             },
             "development": {
-              "browserTarget": "astana-ui:build:development"
+              "browserTarget": "tarot:build:development"
             }
           },
           "defaultConfiguration": "development",
@@ -90,7 +90,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "astana-ui:build"
+            "browserTarget": "tarot:build"
           }
         },
         "test": {
@@ -114,7 +114,7 @@
       }
     }
   },
-  "defaultProject": "astana-ui",
+  "defaultProject": "tarot",
   "cli": {
     "analytics": false
   }

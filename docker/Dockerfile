@@ -17,7 +17,7 @@ ENV BACKEND_UPSTREAM backend:8080
 
 COPY ./docker/entrypoint.sh /sbin/entrypoint.sh
 
-COPY --from=build /dist/src/app/dist/astana-ui /usr/share/nginx/html
+COPY --from=build /dist/src/app/dist/tarot /usr/share/nginx/html
 COPY ./docker/nginx.conf  /etc/nginx/conf.d/default.conf
 EXPOSE 80
 

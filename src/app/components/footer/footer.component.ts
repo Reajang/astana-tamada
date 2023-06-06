@@ -4,7 +4,6 @@ import {TarotCollocations, TarotCollocationsMap} from "../../models/tarot/tarot-
 import {selectLanguage} from "../../store/system/language/language.selectors";
 import {filter, Subject, takeUntil} from "rxjs";
 import {Store} from "@ngrx/store";
-import {AppRouteConstants} from "../../app.constants";
 
 @Component({
   selector: 'app-footer',
@@ -34,9 +33,6 @@ export class FooterComponent implements OnInit, OnDestroy {
       });
   }
 
-  isTarot(): boolean {
-    return this.router.url?.startsWith(AppRouteConstants.tarotStartPath);
-  }
 
   ngOnDestroy(): void {
     this.unsubscribe$.next();
