@@ -6,7 +6,7 @@ RUN npm cache clean --force
 # Copy files from local machine to virtual directory in docker image
 COPY . .
 #There are some mistakes with angular modules versions, thun use --force
-RUN npm install --force
+RUN npm install
 RUN npm run build --prod
 
 
