@@ -74,23 +74,23 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "tarot:build:production"
+              "buildTarget": "tarot:build:production"
             },
             "development": {
-              "browserTarget": "tarot:build:development"
+              "buildTarget": "tarot:build:development"
             }
           },
           "defaultConfiguration": "development",
           "options": {
             "proxyConfig": "src/proxy.conf.json",
-            "browserTarget": "frontend:build",
-            "port": 80
+            "port": 80,
+            "buildTarget": "frontend:build"
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "tarot:build"
+            "buildTarget": "tarot:build"
           }
         },
         "test": {
