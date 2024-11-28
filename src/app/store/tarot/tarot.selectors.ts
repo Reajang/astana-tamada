@@ -21,11 +21,6 @@ export const selectTarotResponse = createSelector(
   state => state.response,
 );
 
-export const selectTarotPulledCards = createSelector(
-  selectTarotState,
-  state => state.randomlyPulledCards,
-);
-
 export const selectLastRequestJobId = createSelector(
   selectTarotState,
   state => state.asyncRequestId,

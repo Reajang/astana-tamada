@@ -15,10 +15,6 @@ export class JobService {
   get = (jobId: string): Observable<Job> => {
     return this.http$.get<Job>(
       `/api/job/get/${jobId}`,
-      {
-        observe: 'body',
-        responseType: 'json',
-      }
     );
   }
 }

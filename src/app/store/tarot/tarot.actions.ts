@@ -22,15 +22,6 @@ export const setResponse = createAction(
   props<{ response: TarotResponse }>(),
 );
 
-export const pullRandomCard = createAction(
-  '[Tarot] pull card',
-);
-
-export const getPulledCard = createAction(
-  '[Tarot] pull card',
-  props<{ card: TarotCard }>(),
-);
-
 export const askQuestionAsync = createAction(
   '[Tarot] ask question async',
   props<{ request: TarotRequest }>(),

@@ -9,12 +9,10 @@ export interface TarotState {
   request?: TarotRequest,
   asyncRequestId?: string,
   response?: TarotResponse | null,
-  randomlyPulledCards: TarotCard[],
 }
 
 export const initialState: TarotState = {
   deck: [],
-  randomlyPulledCards: [],
 };
 
 export const tarotReduser = createReducer(
@@ -38,13 +36,6 @@ export const tarotReduser = createReducer(
     return {
       ...state,
       response
-    }
-  }),
-
-  on(TarotActions.getPulledCard, (state, {card}) => {
-    return {
-      ...state,
-      randomlyPulledCards: [...state.randomlyPulledCards, card],
     }
   }),
 

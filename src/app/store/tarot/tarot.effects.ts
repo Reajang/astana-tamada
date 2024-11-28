@@ -93,20 +93,4 @@ export class TarotEffects {
       })
     )
   });
-
-
-  pullCard$ = createEffect(() => {
-    return this.actions$.pipe(
-      ofType(TarotActions.pullRandomCard),
-      switchMap(() => {
-        return this.service.takeATry();
-      }),
-      map((card) => {
-        return TarotActions.getPulledCard({card});
-      }),
-      catchError((error, caught) => {
-        return caught;
-      })
-    )
-  });
 }

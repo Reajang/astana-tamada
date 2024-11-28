@@ -46,6 +46,7 @@ import {FullPagePreloaderComponent} from './components/common/full-page-preloade
     SystemLanguageSelectorComponent,
     CommonModalComponent,
     FullPagePreloaderComponent,
+
   ],
   imports: [
     BrowserModule,
@@ -85,6 +86,9 @@ import {FullPagePreloaderComponent} from './components/common/full-page-preloade
     DialogService,
     DynamicDialogRef,
     DynamicDialogConfig
+  ],
+  exports: [
+    TarotSelectedCardViewComponent
   ],
   bootstrap: [AppComponent]
 })
