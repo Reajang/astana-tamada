@@ -22,12 +22,3 @@ export const setResponse = createAction(
   props<{ response: TarotResponse }>(),
 );
 
-export const askQuestionAsync = createAction(
-  '[Tarot] ask question async',
-  props<{ request: TarotRequest }>(),
-);
-
-export const setAskAsyncJobId = createAction(
-  '[Tarot] set ask async job id',
-  props<{ jodId: string }>(),
-);

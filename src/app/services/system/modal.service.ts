@@ -15,8 +15,8 @@ export class ModalService {
     caption: string,
     message: string,
     dialogMode = false,
-    okButtonLabel = 'Ок',
-    cancelButtonLabel = 'Отмена'): DynamicDialogRef {
+    okButtonLabel = 'Ok',
+    cancelButtonLabel = 'Cancel'): DynamicDialogRef {
     return this.showCommonPopup({
       caption,
       message,

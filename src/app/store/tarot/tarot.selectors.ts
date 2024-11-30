@@ -21,7 +21,3 @@ export const selectTarotResponse = createSelector(
   state => state.response,
 );
 
-export const selectLastRequestJobId = createSelector(
-  selectTarotState,
-  state => state.asyncRequestId,
-);

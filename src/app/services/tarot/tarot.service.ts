@@ -30,11 +30,4 @@ export class TarotService {
       request,
     );
   }
-
-  askAsync = (request: TarotRequest): Observable<string> => {
-    return this.http$.post<string>(
-      `/api/tarot/question/async`,
-      request,
-    );
-  }
 }

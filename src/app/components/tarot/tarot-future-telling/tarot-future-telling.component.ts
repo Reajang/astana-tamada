@@ -4,15 +4,12 @@ import {TarotCard, TarotResponse} from "../../../models/tarot/tarot.model";
 import {Store} from "@ngrx/store";
 import {FormArray, FormControl, FormGroup} from "@angular/forms";
 import * as TarotActions from "../../../store/tarot/tarot.actions";
-import * as JobActions from "../../../store/system/job/job.actions";
 import * as HttpResponseStatusActions from "../../../store/system/httprequeststatus/http-request-status.action";
-import {selectLastRequestJobId, selectTarotDesk, selectTarotResponse} from "../../../store/tarot/tarot.selectors";
+import {selectTarotDesk, selectTarotResponse} from "../../../store/tarot/tarot.selectors";
 import {TarotResponseViewComponent} from "./tarot-response-view/tarot-response-view.component";
 import {Language} from "../../../models/common/language.model";
 import {HttpRequestType, LoadingStatus} from "../../../store/system/httprequeststatus/http-request-status.reducer";
 import {selectStatus} from "../../../store/system/httprequeststatus/http-request-status.selectors";
-import {selectJob} from "../../../store/system/job/job.selectors";
-import {Job, JobStatus} from "../../../models/system/job.model";
 import {selectLanguage} from "../../../store/system/language/language.selectors";
 import {TarotCollocations, TarotCollocationsMap} from "../../../models/tarot/tarot-collocations.model";
 import {TarotSelectedCardViewComponent} from "./tarot-selected-card-view/tarot-selected-card-view.component";
@@ -35,14 +32,12 @@ export class TarotFutureTellingComponent implements OnInit, OnDestroy {
 
   deck$: Observable<TarotCard[]>;
   response$: Observable<TarotResponse>;
-  responseJob$: Observable<Job>;
   requestStatus$: Observable<LoadingStatus>;
 
   tarotForm: FormGroup<TarotRequestModel>;
 
   deck: TarotCard[];
   selectedCards: TarotCard[] = [];
-  currentJobId: string;
   selectedSystemLanguage = Language.EN;
   collocations: TarotCollocations;
 
@@ -53,7 +48,6 @@ export class TarotFutureTellingComponent implements OnInit, OnDestroy {
 
   responseAlreadyGot = false;
   numberOfGetResponseTries = 0;
-  giveUpAfterNumberOfGetResponseTries = 30;
 
   cardsCount = 3;
   // @ts-ignore
@@ -98,25 +92,10 @@ export class TarotFutureTellingComponent implements OnInit, OnDestroy {
     )
       .subscribe(deck => this.deck = deck);
 
-    // dispatch job from id
-    this.store.select(selectLastRequestJobId)
-      .pipe(
-        takeUntil(this.unsubscribe$),
-      )
-      .subscribe(jobId => {
-        if (jobId) {
-          this.currentJobId = jobId;
-          this.store.dispatch(JobActions.getJob({jobId}));
-          // @ts-ignore
-          this.responseJob$ = this.store.select(selectJob(jobId));
-          this.subscribeOnResponseJob();
-        }
-      });
-
     // response
     this.response$.pipe(
       takeUntil(this.unsubscribe$),
-      filter(respose => !!respose),
+      filter(response => !!response),
     )
       .subscribe(response => {
         this.checkResponseStatusSubmitting$.next();
@@ -155,37 +134,6 @@ export class TarotFutureTellingComponent implements OnInit, OnDestroy {
       });
   }
 
-  private subscribeOnResponseJob() {
-    this.responseJob$
-      .pipe(
-        takeUntil(this.checkResponseStatusSubmitting$),
-        filter(job => !!job),
-        filter(job => JobStatus.RUNNING === job.status || JobStatus.IDLE === job.status),
-      )
-      .subscribe(job => {
-        setTimeout(
-          () => {
-            this.store.dispatch(JobActions.getJob({jobId: this.currentJobId}));
-            this.numberOfGetResponseTries++;
-            if (this.numberOfGetResponseTries >= this.giveUpAfterNumberOfGetResponseTries) {
-              this.checkResponseStatusSubmitting$.next();
-              this.checkResponseStatusSubmitting$.complete();
-              this.store.dispatch(HttpResponseStatusActions.setStatus({
-                updateRequest: {
-                  type: HttpRequestType.TAROT_REQUEST_ASYNC,
-                  status: LoadingStatus.FAILED,
-                }
-              }));
-              // считать за ошибку если бэк не доделал джобу за время ожидания
-              this.store.dispatch(JobActions.setJobFailed({jobId: this.currentJobId}));
-              this.onPageLoadingModalClose.emit('close');
-            }
-          },
-          1500
-        );
-      });
-  }
-
   sendQuestion() {
     if (this.tarotForm.invalid) {
       return;
@@ -200,7 +148,7 @@ export class TarotFutureTellingComponent implements OnInit, OnDestroy {
       from: this.selectedSystemLanguage,
       to: Language.EN, // Default for translate to
     }
-    this.store.dispatch(TarotActions.askQuestionAsync({request}));
+    this.store.dispatch(TarotActions.askQuestion({request}));
     this.modalService.showFullPagePreloaderPopup(
       {
         closeRequest: this.onPageLoadingModalClose,
@@ -238,7 +186,6 @@ export class TarotFutureTellingComponent implements OnInit, OnDestroy {
   private resetResponseExpectations() {
     // @ts-ignore
     this.store.dispatch(TarotActions.setResponse({response: null}))
-    this.store.dispatch(TarotActions.setAskAsyncJobId({jodId: ''}))
     this.store.dispatch(HttpResponseStatusActions.setStatus({
       updateRequest: {
         type: HttpRequestType.TAROT_REQUEST,

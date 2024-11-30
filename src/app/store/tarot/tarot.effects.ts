@@ -5,7 +5,7 @@ import * as HttpRequestStatusesActions from "../system/httprequeststatus/http-re
 import {catchError, map, switchMap} from "rxjs";
 import {TarotService} from "../../services/tarot/tarot.service";
 import {Store} from "@ngrx/store";
-import {LoadingStatus, HttpRequestType} from "../system/httprequeststatus/http-request-status.reducer";
+import {HttpRequestType, LoadingStatus} from "../system/httprequeststatus/http-request-status.reducer";
 
 @Injectable()
 export class TarotEffects {
@@ -59,33 +59,6 @@ export class TarotEffects {
         this.store.dispatch(HttpRequestStatusesActions.setStatus({
           updateRequest: {
             type: HttpRequestType.TAROT_REQUEST,
-            status: LoadingStatus.FAILED
-          }
-        }));
-        return caught;
-      })
-    )
-  });
-
-  askAsync$ = createEffect(() => {
-    return this.actions$.pipe(
-      ofType(TarotActions.askQuestionAsync),
-      switchMap(({request}) => {
-        this.store.dispatch(HttpRequestStatusesActions.setStatus({
-          updateRequest: {
-            type: HttpRequestType.TAROT_REQUEST_ASYNC,
-            status: LoadingStatus.LOADING
-          }
-        }));
-        return this.service.askAsync(request);
-      }),
-      map((jodId) => {
-        return TarotActions.setAskAsyncJobId({jodId});
-      }),
-      catchError((error, caught) => {
-        this.store.dispatch(HttpRequestStatusesActions.setStatus({
-          updateRequest: {
-            type: HttpRequestType.TAROT_REQUEST_ASYNC,
             status: LoadingStatus.FAILED
           }
         }));
