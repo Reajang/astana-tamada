@@ -113,3 +113,15 @@ $roundhand_font: Snell Roundhand, cursive;
   overflow-x: hidden;
   overflow-y: auto;
 }
+
+.app_button {
+  cursor: pointer;
+  border-radius: 2px;
+  padding: 4px;
+  width: 150px;
+  height: 24px;
+  background-color: $wheat;
+  border: 2px solid #837739;
+  @include text-16();
+  text-align: center;
+}

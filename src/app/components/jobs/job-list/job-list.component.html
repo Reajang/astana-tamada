@@ -1,0 +1,8 @@
+<div class="job-page">
+  <div class="create_job app_button" (click)="createNewJob()">Create a Job</div>
+  <div class="job-list">
+    @for (job of jobs; track job; let i = $index) {
+      {{i}}: <app-job-card [job]="job"></app-job-card>
+    }
+  </div>
+</div>

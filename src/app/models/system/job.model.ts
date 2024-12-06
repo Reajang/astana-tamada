@@ -8,15 +8,13 @@ export interface Job {
 }
 
 export interface JobResult {
-  id?: string;
-  createDate?: Date;
-  updateDate?: Date;
   data: any;
   type?: string;
 }
 
 export enum JobType {
   TAROT_FUTURE_TELL = 'TAROT_FUTURE_TELL',
+  TEST = 'TEST',
 }
 
 export enum JobStatus {

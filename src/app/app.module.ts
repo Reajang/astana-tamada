@@ -19,19 +19,25 @@ import {TarotEffects} from "./store/tarot/tarot.effects";
 import {
   TarotSelectedCardViewComponent
 } from './components/tarot/tarot-future-telling/tarot-selected-card-view/tarot-selected-card-view.component';
-import {TarotResponseViewComponent} from './components/tarot/tarot-future-telling/tarot-response-view/tarot-response-view.component';
+import {
+  TarotResponseViewComponent
+} from './components/tarot/tarot-future-telling/tarot-response-view/tarot-response-view.component';
 import {DialogService, DynamicDialogConfig, DynamicDialogRef} from "primeng/dynamicdialog";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {RadioButtonModule} from "primeng/radiobutton";
 import {JobEffects} from "./store/system/job/job.effects";
 import {PreloaderSpinnerComponent} from './components/common/preloader-spinner/preloader-spinner.component';
 import {SimpleButtonComponent} from './components/common/simple-button/simple-button.component';
-import {SystemLanguageSelectorComponent} from './components/common/system-language-selector/system-language-selector.component';
+import {
+  SystemLanguageSelectorComponent
+} from './components/common/system-language-selector/system-language-selector.component';
 import {SelectButtonModule} from "primeng/selectbutton";
 import {DropdownModule} from "primeng/dropdown";
 import {ListboxModule} from "primeng/listbox";
 import {CommonModalComponent} from './components/common/common-modal/common-modal.component';
 import {FullPagePreloaderComponent} from './components/common/full-page-preloader/full-page-preloader.component';
+import {JobListComponent} from "./components/jobs/job-list/job-list.component";
+import {JobCardComponent} from "./components/jobs/job-list/job-card/job-card.component";
 
 @NgModule({
   declarations: [
@@ -46,7 +52,8 @@ import {FullPagePreloaderComponent} from './components/common/full-page-preloade
     SystemLanguageSelectorComponent,
     CommonModalComponent,
     FullPagePreloaderComponent,
-
+    JobListComponent,
+    JobCardComponent
   ],
   imports: [
     BrowserModule,
@@ -85,7 +92,7 @@ import {FullPagePreloaderComponent} from './components/common/full-page-preloade
   providers: [
     DialogService,
     DynamicDialogRef,
-    DynamicDialogConfig
+    DynamicDialogConfig,
   ],
   exports: [
     TarotSelectedCardViewComponent
